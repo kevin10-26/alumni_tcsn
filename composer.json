@@ -1,0 +1,48 @@
+{
+    "name": "tcsn/alumni",
+    "description": "Websites for Digital Law Master students in La Rochelle University.",
+    "type": "project",
+    "require": {
+        "ext-openssl": "*",
+        "php": "^8.1",
+        "php-di/php-di": "^7.0",
+        "doctrine/orm": "^2.14",
+        "symfony/cache": "^6.2",
+        "vlucas/phpdotenv": "^5.6",
+        "firebase/php-jwt": "dev-main",
+        "twig/twig": "^3.21",
+        "monolog/monolog": "^3.4",
+        "psr/container": "^2.0",
+        "nikic/fast-route": "^1.3",
+        "predis/predis": "^3.0",
+        "psr/http-server-middleware": "^1.0",
+        "laminas/laminas-diactoros": "^3.6",
+        "middlewares/utils": "^4.0",
+        "doctrine/annotations": "^2.0",
+        "doctrine/migrations": "^3.9",
+        "middlewares/fast-route": "^2.1",
+        "middlewares/request-handler": "^2.1",
+        "laminas/laminas-httphandlerrunner": "^2.12"
+    },
+    "license": "LGPL-2.1-or-later",
+    "autoload": {
+        "psr-4": {
+            "Alumni\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "symfony/var-dumper": "^6.2"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "migrations:diff": "vendor/bin/doctrine-migrations diff",
+        "migrations:migrate": "vendor/bin/doctrine-migrations migrate",
+        "migrations:status": "vendor/bin/doctrine-migrations status"
+    }
+}

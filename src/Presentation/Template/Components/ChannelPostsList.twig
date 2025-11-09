@@ -1,0 +1,5 @@
+<div id="posts-list" class="flex flex-col gap-y-4 p-6">
+    {% for post in posts %}
+        {% include "./Components/PostCard.twig" with {post: post, loggedUser: user} %}
+    {% endfor %}
+</div>

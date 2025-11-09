@@ -1,0 +1,11 @@
+<?php declare(strict_types=1);
+
+namespace Alumni\Application\UseCase\QuitChannel;
+
+class QuitChannelRequest
+{
+    public function __construct(
+        public readonly int $userId,
+        public readonly string $name
+    ) {}
+}

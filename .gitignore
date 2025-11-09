@@ -1,0 +1,11 @@
+.env
+private_key.pem
+public_key.pem
+
+/vendor/
+/node_modules/
+
+alumni_tcsn.conf
+
+public/img/channels/**/
+!public/img/channels/pool/

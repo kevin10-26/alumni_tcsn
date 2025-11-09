@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# if resource exists, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise, redirect to /public/index.php
+RewriteRule ^(.*)$ index.php [QSA,L]

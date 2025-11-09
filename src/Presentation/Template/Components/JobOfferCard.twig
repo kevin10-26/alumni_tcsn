@@ -1,0 +1,41 @@
+<div class="flex flex-row justify-start gap-x-4 bg-gray-200 border-gray-600 border-2 border-solid">
+    <img class="float-left h-40 object-cover" src="./img/{{ offer.company.logo }}" alt="Logo de l'entreprise : {{ offer.company.companyName }}" />
+
+    <div class="w-3/4 p-4">
+        <p class="font-semibold text-2xl">
+            {{ offer.jobType }} : {{ offer.jobName }} chez {{ offer.company.companyName }}
+        </p>
+
+        <p class="text-lg my-4">
+            {{ offer.jobDescription }}
+        </p>
+
+        <p class="font-semibold underline">
+            Caractéristiques du poste
+        </p>
+        <ul class="ml-8 list-disc">
+            <li class="my-2">Type : {{ offer.jobType }}</li>
+            <li class="my-2">Nom : {{ offer.jobName }}</li>
+            <li class="my-2">
+                Organisation : <span class="font-semibold text-blue-500 underline hover:cursor-pointer" onclick="showCompanyDetails('{{ offer.company.id }}');">{{ offer.company.companyName }}</span>
+            </li>
+            <li class="my-2">Diffusé par : {{ offer.author.username }} ({{ offer.author.studentData.graduatedAt is null ? offer.author.studentData|last.yearName : 'diplômé le ' ~ offer.author.studentData.graduatedAt }})</li>
+        </ul>
+    </div>
+
+    <div class="float-right m-4">
+        {% if offer.id in savedOffers|column('id') %}
+        
+        <button type="button" class="text-lg px-4 py-2 bg-transparent border-yellow-500 border-solid border-2 text-stone-800 font-semibold hover:bg-yellow-500 hover:cursor-pointer transition-all duration-200">
+            <i class="fa-regular fa-bookmark text-yellow-600"></i>&nbsp;&nbsp;Ne plus enregistrer
+        </button>
+
+        {% else %}
+
+        <button type="button" class="text-lg px-4 py-2 bg-yellow-500 border-yellow-500 border-solid border-2 text-white font-semibold hover:bg-transparent hover:cursor-pointer transition-all duration-200">
+            <i class="fa-solid fa-bookmark text-yellow-600"></i>Enregistrer
+        </button>
+
+        {% endif %}
+    </div>
+</div>

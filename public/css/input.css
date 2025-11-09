@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@utility tablink-dashboard-active {
+    border-bottom: solid oklch(58.8% 0.158 241.966) 4px;
+    background-color: oklch(92.8% 0.006 264.531);
+}
+
+@utility tablink-dashboard-settings-active {
+    background-color: var(--color-gray-300);
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+/* Réduction du padding et marges internes EditorJS */
+.codex-editor {
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+  
+  .codex-editor__redactor {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Supprime les marges entre les blocs */
+  .ce-block {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Évite le max-width imposé */
+  .ce-block__content,
+  .ce-toolbar__content {
+    max-width: 100% !important;
+  }
+  
+  /* S'assure que l'éditeur remplit le conteneur */
+  .codex-editor--narrow {
+    max-width: 100% !important;
+    width: 100% !important;
+  }

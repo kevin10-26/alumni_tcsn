@@ -1,0 +1,33 @@
+
+<div class="flex flex-row justify-between items-start gap-x-4 bg-gray-200 rounded-xl p-4">
+    <img class="size-24 rounded-full" src="./img/assets/icons/picture_user.png" alt="User's profile picture." />
+
+    <div class="w-4/5">
+        <p id="post-{{ post.id }}-content">
+            {{ post.content }}
+        </p>
+    
+        <p class="italic my-4 text-gray-400">
+            Posté le : {{ post.createdAt|date("d/m/Y") }} par {{ post.author.username }}
+        </p>
+
+        <div class="flex flex-row justify-start items-center gap-x-4 p-2 rounded-md border-gray-400 border-2 border-solid">
+            <button class="px-4 py-2 hover:bg-gray-50 rounded-md hover:cursor-pointer transition-all duration-200" onclick="openPostReportModal('{{ post.id }}');">
+                <i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp;Signaler
+            </button>
+
+            {% if post.author.id == loggedUser.id %}
+            
+            <button class="px-4 py-2 hover:bg-gray-50 rounded-md hover:cursor-pointer transition-all duration-200" onclick="editChannelPost('post-{{ post.id }}-content', '{{ post.channel.id }}', '{{ post.id }}');">
+                <i class="fa-solid fa-pen"></i>&nbsp;&nbsp;Modifier
+            </button>
+            
+            <button class="px-4 py-2 hover:bg-gray-50 rounded-md hover:cursor-pointer transition-all duration-200" onclick="deletePost('{{ post.id }}', '{{ post.channel.id }}');">
+                <i class="fa-solid fa-trash"></i>&nbsp;&nbsp;Supprimer
+            </button>
+
+            {% endif %}
+            
+        </div>
+    </div>
+</div>

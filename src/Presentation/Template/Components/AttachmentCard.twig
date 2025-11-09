@@ -1,0 +1,19 @@
+<div class="w-full p-4 rounded-xl bg-gray-200">
+    <details>
+        <summary>
+            Informations sur le fichier
+        </summary>
+        <ul class="list-disc ml-8">
+            <li>Posté par : {{ file.post.author.username }}</li>
+            <li>Type du fichier : {{ file.mimetype }}</li>
+            <li>Taille du fichier : {{ file.fileSize }}o</li>
+            <li>Mis en ligne le {{ file.uploadedAt|date("d/m/Y") }}</li>
+        </ul>
+    </details>
+
+    <div class="m-4">
+        <button type="button" class="px-4 py-2 bg-gray-50 hover:underline hover:border-gray-200 hover:cursor-pointer hover:border-2 hover:border-solid" onclick="window.location.href = '{{ file.filePath }}';">
+            {{ file.filename }}
+        </button>
+    </div>
+</div>
