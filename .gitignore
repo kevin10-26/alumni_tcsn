@@ -2,6 +2,9 @@
 private_key.pem
 public_key.pem
 
+private.pem
+public.pem
+
 /vendor/
 /node_modules/
 
