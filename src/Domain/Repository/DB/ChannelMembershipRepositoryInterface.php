@@ -15,7 +15,7 @@ interface ChannelMembershipRepositoryInterface
 
     public function getUserChannelMembership(int $userId, int $channelId): ?ChannelMembership;
 
-    public function removeUserFromChannel(User $user, string $channelName): bool;
+    public function removeUserFromChannel(User $user, int $channelId): bool;
 
     public function addUserToChannel(User $user, int $channelId): bool;
 }

@@ -24,11 +24,11 @@ class QuitChannelUseCase
             );
         }
 
-        $quitChannel = $this->channelMembershipRepository->removeUserFromChannel($user, $requestDTO->name);
+        $quitChannel = $this->channelMembershipRepository->removeUserFromChannel($user, $requestDTO->channelId);
 
         return new QuitChannelResponse(
             status: $quitChannel ? 200 : 500,
-            msg: $quitChannel ? 'User successfully quitted channel ' . $requestDTO->name : 'Failed to remove user from channel ' . $requestDTO->name
+            msg: $quitChannel ? 'User successfully quitted channel ' : 'Failed to remove user from channel '
         );
     }
 }

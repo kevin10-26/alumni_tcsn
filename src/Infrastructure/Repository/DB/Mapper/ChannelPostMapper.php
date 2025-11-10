@@ -109,12 +109,13 @@ class ChannelPostMapper
             $poolPath = parse_url($fileData['poolLocation'], PHP_URL_PATH);
             $originalName = basename($poolPath);
         }
+        $pathToFile = $_ENV['APP_DIR'] . 'public' . $poolPath ?? $urlPath;
         
         // Set attachment properties
         $attachment->setFilename($filename);
         $attachment->setOriginalName($originalName);
-        $attachment->setMimeType($fileData['mimeType'] ?? 'application/octet-stream');
-        $attachment->setFileSize($fileData['size'] ?? 0);
+        $attachment->setMimeType(mime_content_type($pathToFile) ?? 'application/octet-stream');
+        $attachment->setFileSize(filesize($pathToFile) ?? 0);
         $attachment->setFilePath($url);
         $attachment->setUploadedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
         $attachment->setPost($post);

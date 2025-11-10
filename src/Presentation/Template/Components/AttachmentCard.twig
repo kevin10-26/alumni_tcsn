@@ -1,4 +1,4 @@
-<div class="w-full p-4 rounded-xl bg-gray-200">
+<div class="w-full p-4 rounded-xl bg-gray-200 my-4">
     <details>
         <summary>
             Informations sur le fichier
@@ -16,4 +16,8 @@
             {{ file.filename }}
         </button>
     </div>
+
+    <button class="px-4 py-2 rounded-md border-2 border-solid border-blue-800 hover:bg-blue-800 hover:text-white hover:cursor-pointer transition-all duration-200" onclick="moveToChannelPosts('{{ file.post.id }}');">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>&nbsp;&nbsp;Voir le post correspondant
+    </button>
 </div>

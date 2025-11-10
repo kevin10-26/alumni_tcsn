@@ -11,6 +11,7 @@ interface ChannelPostRepositoryInterface
     public function getAllChannelPosts(int $channelId): array;
     public function getPostsOfAuthor(int $userId): array;
     public function getPostBy(array $condition): ChannelPost;
+    public function getPostWithAttachments(int $channelId): array;
 
     public function addToPool(File $file): bool;
     public function upload(

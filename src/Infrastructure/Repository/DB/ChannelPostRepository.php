@@ -103,6 +103,29 @@ class ChannelPostRepository implements ChannelPostRepositoryInterface
     }
 
     /**
+     * @deprecated
+     */
+    public function getPostWithAttachments(int $channelId): array
+    {
+        $queryPosts = $this->em->createQuery(
+            'SELECT DISTINCT cp
+             FROM Alumni\Infrastructure\Entity\ChannelPostDoctrine cp
+             JOIN cp.attachments a
+             WHERE cp.channel = :channel'
+        )->setParameter('channel', $channelId);
+        $postsDoctrine = $queryPosts->getResult();
+
+        $posts = [];
+
+        foreach ($postsDoctrine as $post)
+        {
+            $posts[] = $this->postMapper->toDomain($post);
+        }
+
+        return $posts;
+    }
+
+    /**
      * Adds a file to the file pool for temporary storage before attachment to a post.
      * 
      * @param File $file The file entity to add to the pool

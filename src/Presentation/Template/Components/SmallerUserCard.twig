@@ -1,7 +1,16 @@
-<div class="flex flex-row justify-start items-center gap-x-4 px-4 py-2 rounded-md bg-gray-200">
-    <img class="size-16 rounded-full object-cover" src="img/users/{{ member.user.id }}/profile_pictures/{{ member.user.userData.avatar }}" alt="Photo de profil de : {{ member.user.username }}." />
+<div id="membership-card-{{ member.user.id }}" class="flex flex-row justify-between items-center gap-x-4 px-4 py-2 rounded-md bg-gray-200">
+    
+    <div class="flex flex-row justify-start items-center gap-x-4">
+        <img class="size-16 rounded-full object-cover" src="img/users/{{ member.user.id }}/profile_pictures/{{ member.user.userData.avatar }}" alt="Photo de profil de : {{ member.user.username }}." />
 
-    <p>
-        {{ member.user.username }}
-    </p>
+        <p>
+            {{ member.user.username }}
+        </p>
+    </div>
+
+    {% if global_logged_user.id == channel.founder.id xor global_logged_user.id == member.user.id %}
+    <button class="px-4 py-2 border-red-800 border-solid border-2 hover:bg-red-800 hover:text-white hover:cursor-pointer duration-200 transition-all" onclick="withdrawUserFromChannel('{{ member.user.id }}', {{ channel.id }}, {{ global_logged_user.id == channel.founder.id }})">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;{{ (global_logged_user.id == channel.founder.id) ? 'Exclure' : 'Quitter' }}
+    </button>
+    {% endif %}
 </div>

@@ -93,9 +93,9 @@ class ChannelMembershipRepository implements ChannelMembershipRepositoryInterfac
      * @param string $channelName The name of the channel
      * @return bool Returns true on success, false if channel is not found
      */
-    public function removeUserFromChannel(User $user, string $channelName): bool
+    public function removeUserFromChannel(User $user, int $channelId): bool
     {
-        $channel = $this->em->getRepository(ChannelDoctrine::class)->findOneBy(['name' => $channelName]);
+        $channel = $this->em->getRepository(ChannelDoctrine::class)->findOneBy(['id' => $channelId]);
         if (is_null($channel))
         {
             return false;

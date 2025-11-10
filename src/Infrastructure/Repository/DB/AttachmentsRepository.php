@@ -76,6 +76,35 @@ class AttachmentsRepository implements AttachmentsRepositoryInterface
     }
 
     /**
+     * Retrieves all attachments for a specific channel.
+     * 
+     * @param int $channelId The ID of the channel.
+     * @return array<Attachment> Array of attachments for the channel as domain entities
+     */
+    public function getChannelAttachments(int $channelId): array
+    {
+        $attachmentsDoctrine = $this->em->getRepository(AttachmentDoctrine::class)
+            ->createQueryBuilder('a')
+            ->join('a.post', 'p')
+            ->where('IDENTITY(p.channel) = :channelId')
+            ->setParameter('channelId', $channelId)
+            ->getQuery()
+            ->getResult();
+
+        $attachments = [];
+        foreach ($attachmentsDoctrine as $entry)
+        {
+            if ($entry->getPost() === null) {
+                continue;
+            }
+            $post = $this->postMapper->toDomain($entry->getPost());
+            $attachments[] = $this->fileMapper->toDomain($entry, $post);
+        }
+
+        return $attachments;
+    }
+
+    /**
      * Retrieves all attachments for a specific post.
      * 
      * @param int $postId The ID of the post

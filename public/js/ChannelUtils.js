@@ -1,6 +1,6 @@
 'use strict'
 
-const leaveChannel = async (channelName, container) => {
+const leaveChannel = async (channelId, container = null) => {
     if (confirm('Vous vous apprêtez à quitter ce channel. Si vous confirmez, vous pourrez le rejoindre à nouveau à tout moment.'))
     {
         let authManager = new AuthManager() ?? null;
@@ -15,20 +15,25 @@ const leaveChannel = async (channelName, container) => {
                 'ttl': 5000
             });
         } else {
-            console.debug(channelName);
             let xhr = new AuthManager(),
                 request = await xhr.makeAuthenticatedRequest('/channels/actions/quit', {
                     method: 'POST',
                     header: {
                         "Content-Type": 'application/json'
                     },
-                    body: JSON.stringify({targetedChannel: channelName})
+                    body: JSON.stringify({targetedChannel: channelId})
                 });
 
             let response = await request.json();
 
             if (response.status)
             {
+                if (container === null)
+                {
+                    window.location.href = './channels/list';
+                    return false;
+                }
+
                 snackbar.init({
                     'msg': 'Vous avez quitté le channel ' + channelName,
                     'state': 'success',
@@ -223,4 +228,52 @@ const openPostReportModal = (postId) => {
 
 const checkIfOther = (e, otherInputId) => {
     document.getElementById(otherInputId).style.display = (e.target.selectedOptions[0].value === 'Autre') ? 'block' : 'none';
+}
+
+const moveToChannelPosts = postId => {
+    let frontend = new Frontend();
+    frontend.openTab('channel-tablink', 'channel-tabcontent', 'overview');
+
+    let postElement = document.getElementById(`post-card-${postId}`);
+    postElement.scrollIntoView({behavior: 'smooth'});
+
+    postElement.animate([
+        { boxShadow: '0 0 0px rgba(0,0,0,0)' },
+        { backgroundColor: 'transparent' },
+        { boxShadow: '0 0 10px rgba(41, 37, 36, 0.8)' }, // bg-stone-800
+        { backgroundColor: 'rgb(243 244 246)' }, // bg-gray-100
+        { backgroundColor: 'rgb(229 231 235)' }, // bg-gray-200
+        { boxShadow: '0 0 10px rgba(41, 37, 36, 0.8)' }, // bg-stone-800
+        { backgroundColor: 'transparent' },
+        { boxShadow: '0 0 0px rgba(0,0,0,0)' }
+    ], {
+        duration: 2000,
+        iterations: 1,
+        easing: 'ease-in-out'
+    });
+}
+
+const withdrawUserFromChannel = async (userId, channelId, isBan) => {
+    if (confirm('Cette action est irréversible.'))
+    {
+        let xhr = new AuthManager(),
+            request = await xhr.makeAuthenticatedRequest('/channels/actions/quit', {
+                method: 'POST',
+                header: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    targetedChannel: channelId
+                })
+            });
+
+        let response = await request.json();
+
+        if (response.status)
+        {
+            (isBan) ? document.getElementById(`membership-card-${userId}`).remove() : window.location.href = './channels/list/#left';
+            return false;
+        }
+    }
 }

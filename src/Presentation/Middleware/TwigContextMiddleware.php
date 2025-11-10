@@ -27,6 +27,10 @@ final class TwigContextMiddleware implements MiddlewareInterface
         {
             $userCurrentChannels = $this->channelMembershipRepository->getChannelsForUser($user->token['userId']);
             $this->twig->addGlobal('global_user_channels', $userCurrentChannels);
+            $this->twig->addGlobal('global_logged_user', [
+                'id' => $user->token['userId'],
+                'role' => $user->token['role']
+            ]);
         }
 
         return $handler->handle($request);

@@ -22,7 +22,7 @@ class GetChannelUseCase
     {
         $channelData = $this->channelRepository->getById($requestDTO->channelId);
         $channelPosts = $this->channelPostRepository->getAllChannelPosts($requestDTO->channelId);
-        $attachments = $this->attachmentsRepository->getUserAttachments($requestDTO->channelId);
+        $attachments = $this->attachmentsRepository->getChannelAttachments($requestDTO->channelId);
         $user = $this->userRepository->getBy(['id' => $requestDTO->userId]);
         $members = $this->channelMembershipRepository->getMembersForChannel($requestDTO->channelId);
 

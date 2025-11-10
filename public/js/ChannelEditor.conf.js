@@ -212,7 +212,6 @@ const deletePost = async (postId, channelId) => {
         });
 
         let response = await xhr.json();
-        console.debug(response);
 
         if(response.status === 200)
         {

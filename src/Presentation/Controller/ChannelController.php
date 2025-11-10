@@ -131,7 +131,7 @@ class ChannelController
         $raw = (string) $request->getBody();
         $requestBody = json_decode($raw, true) ?? [];
 
-        $requestDTO = new QuitChannelRequest($user['userId'], $requestBody['targetedChannel']);
+        $requestDTO = new QuitChannelRequest($user['userId'], intval($requestBody['targetedChannel']));
         
         $response = $this->quitChannel->execute($requestDTO);
 
