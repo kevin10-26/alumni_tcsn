@@ -83,7 +83,7 @@ return [
 
     Environment::class => function (FilesystemLoader $loader) {
         $twig = new Environment($loader, [
-            'cache' => __DIR__ . '/../../var/cache/twig',
+            'cache' => __DIR__ . '/../var/cache/twig',
             'auto_reload' => true,
             'debug' => $_ENV['APP_ENV'] === 'dev'
         ]);
