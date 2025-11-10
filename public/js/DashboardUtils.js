@@ -32,7 +32,7 @@ function modifyUserField(fieldId) {
 const checkPasswordsMatchBeforeSubmitting = e => {
     if (e.key === 'Enter')
     {
-        if (document.getElementById('settings-password').value === document.getElementById('settings-confirm-password') && e.target.value.length > 6)
+        if (document.getElementById('settings-password').value === document.getElementById('settings-confirm-password').value && e.target.value.length > 6)
         {
             updateUserProfile(e);
         } else {

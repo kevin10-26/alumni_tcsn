@@ -90,6 +90,8 @@ class UserRepository implements UserRepositoryInterface
                 throw new \RuntimeException("Type de profil inconnu : $userProfileType");
         }
 
+        if ($matchingField === 'passwordHash') $value = password_hash($value, PASSWORD_DEFAULT);
+
         $query = $this->em->createQuery($dql)
             ->setParameter('value', $value)
             ->setParameter('id', $userId);

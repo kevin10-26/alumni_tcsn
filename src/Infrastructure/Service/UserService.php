@@ -29,6 +29,7 @@ class UserService implements UserServiceInterface
             'user-firstName' => 'firstName',
             'user-lastName' => 'lastName',
             'settings-password' => 'passwordHash',
+            'settings-confirm-password' => 'passwordHash',
             'user-avatar' => 'avatar',
         ];
 
