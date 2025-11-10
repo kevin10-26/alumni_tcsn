@@ -3,6 +3,7 @@
 namespace Alumni\Domain\Service;
 
 use Alumni\Domain\Entity\File;
+use Alumni\Domain\Entity\User;
 
 interface UserServiceInterface
 {

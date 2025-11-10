@@ -14,7 +14,7 @@ class User
         public readonly string $status,
         public readonly bool $isAnonymous,
         public readonly ?UserData $userData = null,
-        public readonly ?array $studentData = null,
+        public ?array $studentData = null,
         public readonly ?UserJobData $userJobData = null
     ) {}
 }

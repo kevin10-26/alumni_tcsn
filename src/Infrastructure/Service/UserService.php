@@ -12,6 +12,7 @@ use Alumni\Infrastructure\Repository\File\Mapper\FileMapper;
 use Alumni\Domain\Service\UserServiceInterface;
 
 use Alumni\Domain\Entity\File;
+use Alumni\Domain\Entity\User;
 
 class UserService implements UserServiceInterface
 {

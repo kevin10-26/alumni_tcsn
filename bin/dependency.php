@@ -63,6 +63,9 @@ use Alumni\Infrastructure\Repository\DB\CompanyRepository;
 use Alumni\Domain\Repository\DB\AnnouncesRepositoryInterface;
 use Alumni\Infrastructure\Repository\DB\AnnouncesRepository;
 
+use Alumni\Domain\Repository\DB\StudentRepositoryInterface;
+use Alumni\Infrastructure\Repository\DB\StudentRepository;
+
 use Alumni\Domain\Repository\File\ChannelFileRepositoryInterface;
 use Alumni\Infrastructure\Repository\File\ChannelFileRepository;
 
@@ -146,6 +149,7 @@ return [
     CompanyRepositoryInterface::class => DI\autowire(CompanyRepository::class),
     AnnouncesRepositoryInterface::class => DI\autowire(AnnouncesRepository::class),
     ReportsRepositoryInterface::class => DI\autowire(ReportsRepository::class),
+    StudentRepositoryInterface::class => DI\autowire(StudentRepository::class),
     ChannelFileRepositoryInterface::class => DI\autowire(ChannelFileRepository::class),
     PostChannelFileRepositoryInterface::class => DI\autowire(PostChannelFileRepository::class),
     UserFileRepositoryInterface::class => DI\autowire(UserFileRepository::class),
