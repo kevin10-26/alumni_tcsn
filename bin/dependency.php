@@ -33,6 +33,9 @@ use Alumni\Infrastructure\Service\JWTService;
 use Alumni\Domain\Service\ChannelServiceInterface;
 use Alumni\Infrastructure\Service\ChannelService;
 
+use Alumni\Domain\Service\UserServiceInterface;
+use Alumni\Infrastructure\Service\UserService;
+
 use Alumni\Domain\Service\FileServiceInterface;
 use Alumni\Infrastructure\Service\FileService;
 
@@ -65,6 +68,9 @@ use Alumni\Infrastructure\Repository\File\ChannelFileRepository;
 
 use Alumni\Domain\Repository\File\PostChannelFileRepositoryInterface;
 use Alumni\Infrastructure\Repository\File\PostChannelFileRepository;
+
+use Alumni\Domain\Repository\File\UserFileRepositoryInterface;
+use Alumni\Infrastructure\Repository\File\UserFileRepository;
 
 use Alumni\Domain\Repository\DB\ReportsRepositoryInterface;
 use Alumni\Infrastructure\Repository\DB\ReportsRepository;
@@ -142,6 +148,7 @@ return [
     ReportsRepositoryInterface::class => DI\autowire(ReportsRepository::class),
     ChannelFileRepositoryInterface::class => DI\autowire(ChannelFileRepository::class),
     PostChannelFileRepositoryInterface::class => DI\autowire(PostChannelFileRepository::class),
+    UserFileRepositoryInterface::class => DI\autowire(UserFileRepository::class),
 
 
     AuthServiceInterface::class => autowire(AuthService::class),
@@ -157,5 +164,6 @@ return [
     },
     ChannelServiceInterface::class => DI\autowire(ChannelService::class),
     FileServiceInterface::class => DI\autowire(FileService::class),
-    ReportsServiceInterface::class => DI\autowire(ReportsService::class)
+    ReportsServiceInterface::class => DI\autowire(ReportsService::class),
+    UserServiceInterface::class => DI\autowire(UserService::class)
 ];

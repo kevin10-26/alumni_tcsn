@@ -12,6 +12,8 @@ use Alumni\Infrastructure\Entity\UserDoctrine;
 
 use Alumni\Infrastructure\Repository\DB\Mapper\UserMapper;
 
+use Alumni\Domain\Service\UserServiceInterface;
+
 /**
  * Repository implementation for managing User entities in the database.
  * 
@@ -28,6 +30,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly UserServiceInterface $userService,
         private readonly UserMapper $mapper
     ) {}
 
@@ -60,5 +63,39 @@ class UserRepository implements UserRepositoryInterface
         $adminDoctrine = $this->em->getRepository(UserDoctrine::class)->findOneBy($conditions);
 
         return $this->mapper->toDomain($adminDoctrine);
+    }
+
+    public function update(int $userId, string $field, string $value): bool
+    {
+        $matchingField = $this->userService->getDatabaseField($field);
+        $userProfileType = $this->userService->getUserProfileType($matchingField);
+
+        switch ($userProfileType)
+        {
+            case 'account':
+                $dql = sprintf(
+                    'UPDATE Alumni\Infrastructure\Entity\UserDoctrine u SET u.%s = :value WHERE u.id = :id',
+                    $matchingField
+                );
+                break;
+
+            case 'data':
+                $dql = sprintf(
+                    'UPDATE Alumni\Infrastructure\Entity\UserDataDoctrine d SET d.%s = :value WHERE d.user = :id',
+                    $matchingField
+                );
+                break;
+
+            default:
+                throw new \RuntimeException("Type de profil inconnu : $userProfileType");
+        }
+
+        $query = $this->em->createQuery($dql)
+            ->setParameter('value', $value)
+            ->setParameter('id', $userId);
+
+        $query->execute();
+
+        return true;
     }
 }
