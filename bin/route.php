@@ -17,6 +17,10 @@ return [
 
     ['method' => 'GET', 'path' => '/dashboard', 'handler' => [UserController::class, 'dashboard']],
 
+    ['method' => 'POST', 'path' => '/dashboard/user/update', 'handler' => [UserController::class, 'updateUserProfile']],
+
+    ['method' => 'POST', 'path' => '/dashboard/user/updateAvatar', 'handler' => [UserController::class, 'updateUserAvatar']],
+
     ['method' => 'POST', 'path' => '/auth/refresh', 'handler' => [AuthController::class, 'refreshToken']],
 
     ['method' => 'POST', 'path' => '/companies/search', 'handler' => [CompanyController::class, 'search']],

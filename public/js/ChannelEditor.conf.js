@@ -145,7 +145,6 @@ const createReadOnlyEditor = (content, holder) => {
 
 const editChannelPost = async (nodeId, channelId, postId) => {
     postsViews[nodeId].editor.readOnly.toggle();
-    let savedContent;
 
     const post = document.getElementById(nodeId);
     post.classList.add('bg-gray-50', 'p-4');
@@ -185,7 +184,7 @@ const editChannelPost = async (nodeId, channelId, postId) => {
                 });
 
             let response = await xhr.json();
-            // snackbar            
+            // snackbar (use response)       
 
             handleFocusOut(event);
 

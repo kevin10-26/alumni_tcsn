@@ -11,7 +11,7 @@
 
         <div class="absolute top-1/2 left-5 translate-y-1/5 flex flex-row justify-start items-baseline gap-x-4">
             {# User profile overview #}
-            <img class="block rounded-full size-50" src="./img/users/1/profile_pictures/avatar.jpg" alt="" />
+            <img class="block rounded-full size-50" src="./img/users/{{ user.id }}/profile_pictures/{{ user.userData.avatar }}" alt="" />
 
             <div class="m-auto pt-20">
                 <p class="text-3xl font-semibold">
@@ -86,35 +86,47 @@
                             <table class="w-3/4 mx-auto">
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Nom d'utilisateur</td>
-                                    <td class="text-right p-4">{{ user.username }}</td>
+                                    <td class="text-right p-4" contenteditable="false">
+                                        <span id="user-name" class="p-4" contenteditable="false">{{ user.username }}</span>
+                                        <i class="fa-solid fa-pen hover:cursor-pointer" onclick="modifyUserField('user-name')"></i>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Adresse e-mail</td>
-                                    <td class="text-right p-4">{{ user.emailAddress }}</td>
+                                    <td class="text-right p-4" contenteditable="false">
+                                        <span id="user-email" class="p-4" contenteditable="false">{{ user.emailAddress }}</span>
+                                        <i class="fa-solid fa-pen hover:cursor-pointer" onclick="modifyUserField('user-email')"></i>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Prénom</td>
-                                    <td class="text-right p-4">{{ user.userData.firstName }}</td>
+                                    <td class="text-right p-4" contenteditable="false">
+                                        <span id="user-firstName" class="p-4" contenteditable="false">{{ user.userData.firstName }}</span>
+                                        <i class="fa-solid fa-pen hover:cursor-pointer" onclick="modifyUserField('user-firstName')"></i>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Nom</td>
-                                    <td class="text-right p-4">{{ user.userData.lastName }}</td>
+                                    <td class="text-right p-4" contenteditable="false">
+                                        <span id="user-lastName" class="p-4" contenteditable="false">{{ user.userData.lastName }}</span>
+                                        <i class="fa-solid fa-pen hover:cursor-pointer" onclick="modifyUserField('user-lastName')"></i>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Mot de passe</td>
                                     <td class="text-right p-4 align-top">
-                                        <input type="password" id="settings-password" class="w-3/4 py-2 px-4 border-2 border-solid border-gray-300 rounded-md my-2" placeholder="Entrez votre nouveau mot de passe..." />
+                                        <input type="password" id="settings-password" class="w-3/4 py-2 px-4 border-2 border-solid border-gray-300 rounded-md my-2" placeholder="Entrez votre nouveau mot de passe..." onkeyup="checkPasswordsMatchBeforeSubmitting(event);" />
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td class="p-4 italic text-gray-500">Confirmer votre mot de passe</td>
                                     <td class="text-right p-4 align-top">
-                                        <input type="password" id="settings-confirm-password" class="w-3/4 py-2 px-4 border-2 border-solid border-gray-300 rounded-md my-2" placeholder="Confirmez votre nouveau mot de passe..." />
+                                        <input type="password" id="settings-confirm-password" class="w-3/4 py-2 px-4 border-2 border-solid border-gray-300 rounded-md my-2" placeholder="Confirmez votre nouveau mot de passe..." onkeyup="checkPasswordsMatchBeforeSubmitting(event);" />
                                     </td>
                                 </tr>
 
@@ -122,15 +134,13 @@
                                     <td class="p-4 italic text-gray-500">Avatar</td>
                                     <td class="p-4">
                                         <div class="float-right">
-                                            <label for="settings-change-avatar">
-                                                <img class="size-40 object-cover" src="./img/users/1/profile_pictures/avatar.jpg" alt="Avatar de l'utilisateur : {{ user.username }}" />
-
-                                                <button type="button" class="w-40 px-4 py-2 my-4 border-solid border-2 border-gray-300 hover:cursor-pointer hover:bg-gray-300 transition-all duration-200">
-                                                    Modifier votre avatar
-                                                </button>
+                                            <img id="user-avatar-dashboard" class="size-40 object-cover" src="./img/users/{{ user.id }}/profile_pictures/{{ user.userData.avatar }}" alt="Avatar de l'utilisateur : {{ user.username }}" />
+                                            <label for="settings-change-avatar" class="w-40 inline-block px-4 py-2 my-4 border-2 border-gray-300 rounded hover:cursor-pointer hover:bg-gray-300 transition-all duration-200 text-center">
+                                                <!-- Label acts as the button -->
+                                                Modifier votre avatar
                                             </label>
 
-                                            <input type="file" id="settings-change-avatar" class="hidden" />
+                                            <input type="file" id="settings-change-avatar" class="hidden" onchange="updateUserAvatar(event);" />
                                         </div>
                                     </td>
                                 </tr>
@@ -176,9 +186,8 @@
                                                 {% endif %}
                                                 
                                                 <ul class="list-disc">
-                                                    <li class="ml-8 my-4">Promotion globale : 2024-2026</li>
                                                     <li class="ml-8 my-4">Nombre d'étudiants sur cette année : 20</li>
-                                                    <li class="ml-8 my-4">Délégués de cette promotion : FARGEOT Thomas & BENTO Kévin</li>
+                                                    <li class="ml-8 my-4">Délégués de cette promotion : </li>
                                                 </ul>
                                             </section>
                                         </details>
@@ -314,6 +323,7 @@
 <script src="./js/ElementCreator.js"></script>
 <script src="./js/Editor.conf.js"></script>
 <script src="./js/ChannelUtils.js"></script>
+<script src="./js/DashboardUtils.js"></script>
 
 <script>
     const openDashboardTab = (e, target) => {

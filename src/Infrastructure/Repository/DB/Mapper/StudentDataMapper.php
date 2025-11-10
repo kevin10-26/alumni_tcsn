@@ -22,7 +22,9 @@ class StudentDataMapper
             startedAt: $studentDataDoctrine->getStartedAt(),
             graduatedAt: $studentDataDoctrine->getGraduatedAt(),
             yearName: $studentDataDoctrine->getYearName(),
-            isDelegate: $studentDataDoctrine->isDelegate()
+            isDelegate: $studentDataDoctrine->isDelegate(),
+            userName: $studentDataDoctrine->getUser()->getName(),
+            userId: $studentDataDoctrine->getUser()->getId()
         );
     }
 

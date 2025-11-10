@@ -10,6 +10,9 @@ class StudentData
         public \DateTime $startedAt,
         public ?\DateTime $graduatedAt,
         public string $yearName,
-        public bool $isDelegate
+        public bool $isDelegate,
+        public string $userName,
+        public int $userId,
+        public ?array $flags = []
     ) {}
 }
