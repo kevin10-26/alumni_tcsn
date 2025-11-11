@@ -18,11 +18,11 @@
         "psr/http-server-middleware": "^1.0",
         "laminas/laminas-diactoros": "^3.6",
         "middlewares/utils": "^4.0",
-        "doctrine/annotations": "^2.0",
         "doctrine/migrations": "^3.9",
         "middlewares/fast-route": "^2.1",
         "middlewares/request-handler": "^2.1",
-        "laminas/laminas-httphandlerrunner": "^2.12"
+        "laminas/laminas-httphandlerrunner": "^2.12",
+        "mailjet/mailjet-apiv3-php": "^1.6"
     },
     "license": "LGPL-2.1-or-later",
     "autoload": {

@@ -1,0 +1,727 @@
+{
+    "profile": {
+        "id": 1,
+        "username": "kevin1026",
+        "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+        "emailAddress": {},
+        "status": "R",
+        "isAnonymous": true,
+        "userData": {
+            "id": 1,
+            "firstName": "K\u00e9vin",
+            "lastName": "BENTO",
+            "avatar": {},
+            "address": null
+        },
+        "studentData": [
+            {
+                "id": 1,
+                "prom": {
+                    "id": 1,
+                    "year": 2024,
+                    "representatives": []
+                },
+                "startedAt": {
+                    "date": "2025-09-01 00:00:00.000000",
+                    "timezone_type": 3,
+                    "timezone": "UTC"
+                },
+                "graduatedAt": null,
+                "yearName": "M1",
+                "isDelegate": false,
+                "userName": "kevin1026",
+                "userId": 1,
+                "flags": []
+            },
+            {
+                "id": 2,
+                "prom": {
+                    "id": 2,
+                    "year": 2025,
+                    "representatives": []
+                },
+                "startedAt": {
+                    "date": "2024-09-01 00:00:00.000000",
+                    "timezone_type": 3,
+                    "timezone": "UTC"
+                },
+                "graduatedAt": {
+                    "date": "2025-06-30 00:00:00.000000",
+                    "timezone_type": 3,
+                    "timezone": "UTC"
+                },
+                "yearName": "M2",
+                "isDelegate": true,
+                "userName": "kevin1026",
+                "userId": 1,
+                "flags": []
+            }
+        ],
+        "userJobData": {
+            "id": 1,
+            "company": "prout",
+            "position": "louvre",
+            "startedAt": {
+                "date": "2025-11-11 00:00:00.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "stoppedAt": null
+        }
+    },
+    "jobOffers": {
+        "author": [
+            {
+                "id": 1,
+                "jobName": "Chief Legal Officer",
+                "jobDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas fugit deserunt minus incidunt neque repellat maiores magnam minima dolorum animi possimus, sed culpa sint, libero reprehenderit maxime! Recusandae, exercitationem soluta.",
+                "company": {
+                    "id": 1,
+                    "companyName": "Google",
+                    "logo": "assets\/businesses\/google.png"
+                },
+                "jobType": "Stage",
+                "minimumDuration": "6 mois",
+                "author": {
+                    "id": 1,
+                    "username": "kevin1026",
+                    "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                    "emailAddress": {},
+                    "status": "R",
+                    "isAnonymous": true,
+                    "userData": {
+                        "id": 1,
+                        "firstName": "K\u00e9vin",
+                        "lastName": "BENTO",
+                        "avatar": {},
+                        "address": null
+                    },
+                    "studentData": [
+                        {
+                            "id": 1,
+                            "prom": {
+                                "id": 1,
+                                "year": 2024,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2025-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": null,
+                            "yearName": "M1",
+                            "isDelegate": false,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        },
+                        {
+                            "id": 2,
+                            "prom": {
+                                "id": 2,
+                                "year": 2025,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2024-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": {
+                                "date": "2025-06-30 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "yearName": "M2",
+                            "isDelegate": true,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        }
+                    ],
+                    "userJobData": {
+                        "id": 1,
+                        "company": "prout",
+                        "position": "louvre",
+                        "startedAt": {
+                            "date": "2025-11-11 00:00:00.000000",
+                            "timezone_type": 3,
+                            "timezone": "UTC"
+                        },
+                        "stoppedAt": null
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "jobName": "Consultant RGPD",
+                "jobDescription": "lorem ipsum",
+                "company": {
+                    "id": 2,
+                    "companyName": "CIAGEC",
+                    "logo": "assets\/businesses\/ciagec.jpeg"
+                },
+                "jobType": "Stage",
+                "minimumDuration": "6 mois",
+                "author": {
+                    "id": 1,
+                    "username": "kevin1026",
+                    "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                    "emailAddress": {},
+                    "status": "R",
+                    "isAnonymous": true,
+                    "userData": {
+                        "id": 1,
+                        "firstName": "K\u00e9vin",
+                        "lastName": "BENTO",
+                        "avatar": {},
+                        "address": null
+                    },
+                    "studentData": [
+                        {
+                            "id": 1,
+                            "prom": {
+                                "id": 1,
+                                "year": 2024,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2025-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": null,
+                            "yearName": "M1",
+                            "isDelegate": false,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        },
+                        {
+                            "id": 2,
+                            "prom": {
+                                "id": 2,
+                                "year": 2025,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2024-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": {
+                                "date": "2025-06-30 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "yearName": "M2",
+                            "isDelegate": true,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        }
+                    ],
+                    "userJobData": {
+                        "id": 1,
+                        "company": "prout",
+                        "position": "louvre",
+                        "startedAt": {
+                            "date": "2025-11-11 00:00:00.000000",
+                            "timezone_type": 3,
+                            "timezone": "UTC"
+                        },
+                        "stoppedAt": null
+                    }
+                }
+            }
+        ],
+        "saved": [
+            {
+                "id": 1,
+                "jobName": "Chief Legal Officer",
+                "jobDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas fugit deserunt minus incidunt neque repellat maiores magnam minima dolorum animi possimus, sed culpa sint, libero reprehenderit maxime! Recusandae, exercitationem soluta.",
+                "company": {
+                    "id": 1,
+                    "companyName": "Google",
+                    "logo": "assets\/businesses\/google.png"
+                },
+                "jobType": "Stage",
+                "minimumDuration": "6 mois",
+                "author": {
+                    "id": 1,
+                    "username": "kevin1026",
+                    "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                    "emailAddress": {},
+                    "status": "R",
+                    "isAnonymous": true,
+                    "userData": {
+                        "id": 1,
+                        "firstName": "K\u00e9vin",
+                        "lastName": "BENTO",
+                        "avatar": {},
+                        "address": null
+                    },
+                    "studentData": [
+                        {
+                            "id": 1,
+                            "prom": {
+                                "id": 1,
+                                "year": 2024,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2025-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": null,
+                            "yearName": "M1",
+                            "isDelegate": false,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        },
+                        {
+                            "id": 2,
+                            "prom": {
+                                "id": 2,
+                                "year": 2025,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2024-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": {
+                                "date": "2025-06-30 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "yearName": "M2",
+                            "isDelegate": true,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        }
+                    ],
+                    "userJobData": {
+                        "id": 1,
+                        "company": "prout",
+                        "position": "louvre",
+                        "startedAt": {
+                            "date": "2025-11-11 00:00:00.000000",
+                            "timezone_type": 3,
+                            "timezone": "UTC"
+                        },
+                        "stoppedAt": null
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "jobName": "Consultant RGPD",
+                "jobDescription": "lorem ipsum",
+                "company": {
+                    "id": 2,
+                    "companyName": "CIAGEC",
+                    "logo": "assets\/businesses\/ciagec.jpeg"
+                },
+                "jobType": "Stage",
+                "minimumDuration": "6 mois",
+                "author": {
+                    "id": 1,
+                    "username": "kevin1026",
+                    "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                    "emailAddress": {},
+                    "status": "R",
+                    "isAnonymous": true,
+                    "userData": {
+                        "id": 1,
+                        "firstName": "K\u00e9vin",
+                        "lastName": "BENTO",
+                        "avatar": {},
+                        "address": null
+                    },
+                    "studentData": [
+                        {
+                            "id": 1,
+                            "prom": {
+                                "id": 1,
+                                "year": 2024,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2025-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": null,
+                            "yearName": "M1",
+                            "isDelegate": false,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        },
+                        {
+                            "id": 2,
+                            "prom": {
+                                "id": 2,
+                                "year": 2025,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2024-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": {
+                                "date": "2025-06-30 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "yearName": "M2",
+                            "isDelegate": true,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        }
+                    ],
+                    "userJobData": {
+                        "id": 1,
+                        "company": "prout",
+                        "position": "louvre",
+                        "startedAt": {
+                            "date": "2025-11-11 00:00:00.000000",
+                            "timezone_type": 3,
+                            "timezone": "UTC"
+                        },
+                        "stoppedAt": null
+                    }
+                }
+            }
+        ]
+    },
+    "channels": [
+        {
+            "memberOf": {
+                "id": 29,
+                "user": {
+                    "id": 1,
+                    "username": "kevin1026",
+                    "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                    "emailAddress": {},
+                    "status": "R",
+                    "isAnonymous": true,
+                    "userData": {
+                        "id": 1,
+                        "firstName": "K\u00e9vin",
+                        "lastName": "BENTO",
+                        "avatar": {},
+                        "address": null
+                    },
+                    "studentData": [
+                        {
+                            "id": 1,
+                            "prom": {
+                                "id": 1,
+                                "year": 2024,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2025-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": null,
+                            "yearName": "M1",
+                            "isDelegate": false,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        },
+                        {
+                            "id": 2,
+                            "prom": {
+                                "id": 2,
+                                "year": 2025,
+                                "representatives": []
+                            },
+                            "startedAt": {
+                                "date": "2024-09-01 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "graduatedAt": {
+                                "date": "2025-06-30 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "yearName": "M2",
+                            "isDelegate": true,
+                            "userName": "kevin1026",
+                            "userId": 1,
+                            "flags": []
+                        }
+                    ],
+                    "userJobData": {
+                        "id": 1,
+                        "company": "prout",
+                        "position": "louvre",
+                        "startedAt": {
+                            "date": "2025-11-11 00:00:00.000000",
+                            "timezone_type": 3,
+                            "timezone": "UTC"
+                        },
+                        "stoppedAt": null
+                    }
+                },
+                "channel": {
+                    "id": 9,
+                    "name": "test",
+                    "description": "test",
+                    "thumbnail": "site.PNG",
+                    "isPublic": true,
+                    "founder": {
+                        "id": 1,
+                        "username": "kevin1026",
+                        "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                        "emailAddress": {},
+                        "status": "R",
+                        "isAnonymous": true,
+                        "userData": {
+                            "id": 1,
+                            "firstName": "K\u00e9vin",
+                            "lastName": "BENTO",
+                            "avatar": {},
+                            "address": null
+                        },
+                        "studentData": [
+                            {
+                                "id": 1,
+                                "prom": {
+                                    "id": 1,
+                                    "year": 2024,
+                                    "representatives": []
+                                },
+                                "startedAt": {
+                                    "date": "2025-09-01 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "graduatedAt": null,
+                                "yearName": "M1",
+                                "isDelegate": false,
+                                "userName": "kevin1026",
+                                "userId": 1,
+                                "flags": []
+                            },
+                            {
+                                "id": 2,
+                                "prom": {
+                                    "id": 2,
+                                    "year": 2025,
+                                    "representatives": []
+                                },
+                                "startedAt": {
+                                    "date": "2024-09-01 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "graduatedAt": {
+                                    "date": "2025-06-30 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "yearName": "M2",
+                                "isDelegate": true,
+                                "userName": "kevin1026",
+                                "userId": 1,
+                                "flags": []
+                            }
+                        ],
+                        "userJobData": {
+                            "id": 1,
+                            "company": "prout",
+                            "position": "louvre",
+                            "startedAt": {
+                                "date": "2025-11-11 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "stoppedAt": null
+                        }
+                    }
+                },
+                "joinedAt": {
+                    "date": "2025-11-10 13:46:05.000000",
+                    "timezone_type": 3,
+                    "timezone": "UTC"
+                },
+                "role": "student"
+            },
+            "posts": [
+                {
+                    "id": 22,
+                    "content": "{\"time\":1762782381777,\"blocks\":[{\"id\":\"V-RV-TFaDa\",\"type\":\"paragraph\",\"data\":{\"text\":\"test\"}}],\"version\":\"2.31.0\"}",
+                    "author": {
+                        "id": 1,
+                        "username": "kevin1026",
+                        "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                        "emailAddress": {},
+                        "status": "R",
+                        "isAnonymous": true,
+                        "userData": {
+                            "id": 1,
+                            "firstName": "K\u00e9vin",
+                            "lastName": "BENTO",
+                            "avatar": {},
+                            "address": null
+                        },
+                        "studentData": [
+                            {
+                                "id": 1,
+                                "prom": {
+                                    "id": 1,
+                                    "year": 2024,
+                                    "representatives": []
+                                },
+                                "startedAt": {
+                                    "date": "2025-09-01 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "graduatedAt": null,
+                                "yearName": "M1",
+                                "isDelegate": false,
+                                "userName": "kevin1026",
+                                "userId": 1,
+                                "flags": []
+                            },
+                            {
+                                "id": 2,
+                                "prom": {
+                                    "id": 2,
+                                    "year": 2025,
+                                    "representatives": []
+                                },
+                                "startedAt": {
+                                    "date": "2024-09-01 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "graduatedAt": {
+                                    "date": "2025-06-30 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "yearName": "M2",
+                                "isDelegate": true,
+                                "userName": "kevin1026",
+                                "userId": 1,
+                                "flags": []
+                            }
+                        ],
+                        "userJobData": {
+                            "id": 1,
+                            "company": "prout",
+                            "position": "louvre",
+                            "startedAt": {
+                                "date": "2025-11-11 00:00:00.000000",
+                                "timezone_type": 3,
+                                "timezone": "UTC"
+                            },
+                            "stoppedAt": null
+                        }
+                    },
+                    "channel": {
+                        "id": 9,
+                        "name": "test",
+                        "description": "test",
+                        "thumbnail": "site.PNG",
+                        "isPublic": true,
+                        "founder": {
+                            "id": 1,
+                            "username": "kevin1026",
+                            "passwordHash": "$2y$12$1NEjj0MGsPiO.c31ZYHjGuWfO.piyTnzU4Y22ui3WuyOa0\/Pr\/e6a",
+                            "emailAddress": {},
+                            "status": "R",
+                            "isAnonymous": true,
+                            "userData": {
+                                "id": 1,
+                                "firstName": "K\u00e9vin",
+                                "lastName": "BENTO",
+                                "avatar": {},
+                                "address": null
+                            },
+                            "studentData": [
+                                {
+                                    "id": 1,
+                                    "prom": {
+                                        "id": 1,
+                                        "year": 2024,
+                                        "representatives": []
+                                    },
+                                    "startedAt": {
+                                        "date": "2025-09-01 00:00:00.000000",
+                                        "timezone_type": 3,
+                                        "timezone": "UTC"
+                                    },
+                                    "graduatedAt": null,
+                                    "yearName": "M1",
+                                    "isDelegate": false,
+                                    "userName": "kevin1026",
+                                    "userId": 1,
+                                    "flags": []
+                                },
+                                {
+                                    "id": 2,
+                                    "prom": {
+                                        "id": 2,
+                                        "year": 2025,
+                                        "representatives": []
+                                    },
+                                    "startedAt": {
+                                        "date": "2024-09-01 00:00:00.000000",
+                                        "timezone_type": 3,
+                                        "timezone": "UTC"
+                                    },
+                                    "graduatedAt": {
+                                        "date": "2025-06-30 00:00:00.000000",
+                                        "timezone_type": 3,
+                                        "timezone": "UTC"
+                                    },
+                                    "yearName": "M2",
+                                    "isDelegate": true,
+                                    "userName": "kevin1026",
+                                    "userId": 1,
+                                    "flags": []
+                                }
+                            ],
+                            "userJobData": {
+                                "id": 1,
+                                "company": "prout",
+                                "position": "louvre",
+                                "startedAt": {
+                                    "date": "2025-11-11 00:00:00.000000",
+                                    "timezone_type": 3,
+                                    "timezone": "UTC"
+                                },
+                                "stoppedAt": null
+                            }
+                        }
+                    },
+                    "createdAt": {
+                        "date": "2025-11-10 14:46:21.000000",
+                        "timezone_type": 3,
+                        "timezone": "UTC"
+                    },
+                    "modified": false,
+                    "survey": null,
+                    "attachments": []
+                }
+            ]
+        }
+    ]
+}

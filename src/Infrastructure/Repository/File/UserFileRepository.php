@@ -19,13 +19,13 @@ class UserFileRepository implements UserFileRepositoryInterface
     public function getUserResources(int $userId, array $postAttachments): array
     {        
         return [
-            'documents' => array_diff(scandir($_ENV['APP_DIR'] . "public/documents/users/$userId/"), array('..', '.')),
+            'documents' => $this->rScanDir($_ENV['APP_DIR'] . "public/documents/users/$userId"),
             'channelDocuments' => $postAttachments,
-            'images' => array_diff(scandir($_ENV['APP_DIR'] . "public/img/$userId/"), array('..', '.'))
+            'images' => $this->rScanDir($_ENV['APP_DIR'] . "public/img/users/$userId")
         ];
     }
 
-    public function generatePortabilityFile(array $userData, int $userId): string
+    public function generatePortabilityFile(array $userData, int $userId): array
     {
         $data = json_encode($userData, JSON_PRETTY_PRINT);
 
@@ -35,12 +35,17 @@ class UserFileRepository implements UserFileRepositoryInterface
         fwrite($stream, $data);
         fclose($stream);
 
-        return $filePath;
+        return array(
+            'content' => $data,
+            'filePath' => $filePath
+        );
     }
 
     private function rScanDir(string $dir): array
     {
         $cdir = scandir($dir);
+        $result = [];
+        $relativePath = str_replace($_ENV['APP_DIR'], '', $dir);
 
         foreach ($cdir as $key => $value)
         {
@@ -52,7 +57,7 @@ class UserFileRepository implements UserFileRepositoryInterface
                 }
                 else
                 {
-                    $result[] = $value;
+                    $result[] = $_ENV['APP_DIR'] . $relativePath . DIRECTORY_SEPARATOR . $value;
                 } 
             }
         }

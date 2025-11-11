@@ -10,6 +10,8 @@ use Doctrine\ORM\ORMSetup;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+use Mailjet\Client as MailjetClient;
+
 use Alumni\Presentation\Middleware\TwigContextMiddleware;
 
 use Alumni\Infrastructure\Repository\DB\Mapper\UserMapper;
@@ -41,6 +43,9 @@ use Alumni\Infrastructure\Service\FileService;
 
 use Alumni\Domain\Service\ReportsServiceInterface;
 use Alumni\Infrastructure\Service\ReportsService;
+
+use Alumni\Domain\Service\MailingServiceInterface;
+use Alumni\Infrastructure\Service\MailingService;
 
 use Alumni\Infrastructure\Repository\DB\ChannelRepository;
 use Alumni\Domain\Repository\DB\ChannelRepositoryInterface;
@@ -84,6 +89,11 @@ use Alumni\Infrastructure\Repository\DB\ReportsRepository;
 use function DI\autowire;
 
 return [
+
+    // Mailjet binding
+    MailjetClient::class => function() {
+        return new MailjetClient($_ENV['SMTP_USERNAME'], $_ENV['SMTP_PASSWORD'], true, ['version' => 'v3.1']);
+    },
 
     // Twig bindings
     FilesystemLoader::class => function () {
@@ -169,5 +179,6 @@ return [
     ChannelServiceInterface::class => DI\autowire(ChannelService::class),
     FileServiceInterface::class => DI\autowire(FileService::class),
     ReportsServiceInterface::class => DI\autowire(ReportsService::class),
-    UserServiceInterface::class => DI\autowire(UserService::class)
+    UserServiceInterface::class => DI\autowire(UserService::class),
+    MailingServiceInterface::class => DI\autowire(MailingService::class)
 ];
