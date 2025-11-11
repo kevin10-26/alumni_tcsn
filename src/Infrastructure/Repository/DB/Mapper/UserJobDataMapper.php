@@ -11,16 +11,20 @@ class UserJobDataMapper
     {
         return new UserJobData(
             id: $userJobDataDoctrine->getId(),
-            startedAt: $userJobDataDoctrine->getStartedAt(),
-            stoppedAt: $userJobDataDoctrine->getStoppedAt()
+            company: $userJobDataDoctrine->getCompany(),
+            position: $userJobDataDoctrine->getPosition(),
+            startedAt: $userJobDataDoctrine->getStartDate(),
+            stoppedAt: $userJobDataDoctrine->getEndDate()
         );
     }
 
     public function toDoctrine(UserJobData $userJobData): UserJobDataDoctrine
     {
         $userJobDataDoctrine = new UserJobDataDoctrine();
-        $userJobDataDoctrine->setStartedAt($userJobData->startedAt);
-        $userJobDataDoctrine->setStoppedAt($userJobData->stoppedAt);
+        $userJobDataDoctrine->setCompany($userJobDataDoctrine->company);
+        $userJobDataDoctrine->setPosition($userJobDataDoctrine->position);
+        $userJobDataDoctrine->setStartDate($userJobData->startedAt);
+        $userJobDataDoctrine->setEndDate($userJobData->stoppedAt);
         
         return $userJobDataDoctrine;
     }

@@ -25,7 +25,7 @@ class GetAdminDashboardUseCase
         $user = $this->userRepository->getBy(['id' => $request->id]);
         $jobOffers = $this->jobOfferRepository->getByAuthor($request->id);
         $savedOffers = $this->jobOfferRepository->getUserSavedOffers($request->id);
-        $userPromotionsData = $this->getUserPromotionsData($user->studentData);
+        $this->getUserPromotionsData($user->studentData);
 
         return new GetAdminDashboardResponse(
             user: $user,

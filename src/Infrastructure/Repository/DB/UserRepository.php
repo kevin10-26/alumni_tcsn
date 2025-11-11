@@ -86,6 +86,13 @@ class UserRepository implements UserRepositoryInterface
                 );
                 break;
 
+            case 'job':
+                $dql = sprintf(
+                    'UPDATE Alumni\Infrastructure\Entity\UserJobDataDoctrine j SET j.%s = :value WHERE j.user = :id',
+                    $matchingField
+                );
+                break;
+
             default:
                 throw new \RuntimeException("Type de profil inconnu : $userProfileType");
         }

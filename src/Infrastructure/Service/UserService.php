@@ -32,6 +32,10 @@ class UserService implements UserServiceInterface
             'settings-password' => 'passwordHash',
             'settings-confirm-password' => 'passwordHash',
             'user-avatar' => 'avatar',
+            'settings-company-name' => 'company',
+            'settings-position-name' => 'position',
+            'settings-position-started' => 'startDate',
+            'settings-position-ended' => 'endDate'
         ];
 
         if (!isset($map[$uiField])) {
@@ -46,6 +50,7 @@ class UserService implements UserServiceInterface
     {
         $accountFields = ['name', 'email', 'passwordHash'];
         $dataFields = ['firstName', 'lastName', 'avatar'];
+        $jobFields = ['company', 'position', 'startDate', 'endDate'];
 
         if (in_array($dbField, $accountFields, true)) {
             return 'account';
@@ -53,6 +58,11 @@ class UserService implements UserServiceInterface
 
         if (in_array($dbField, $dataFields, true)) {
             return 'data';
+        }
+
+        if (in_array($dbField, $jobFields, true))
+        {
+            return 'job';
         }
 
         throw new \InvalidArgumentException("Unknown database field: $dbField");

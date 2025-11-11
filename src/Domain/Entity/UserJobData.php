@@ -6,7 +6,8 @@ class UserJobData
 {
     public function __construct(
         public int $id,
-        public JobData $jobData,
+        public string $company,
+        public string $position,
         public \DateTime $startedAt,
         public ?\DateTime $stoppedAt = null
     ) {}

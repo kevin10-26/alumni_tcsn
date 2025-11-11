@@ -161,16 +161,12 @@
                                             </summary>
 
                                             <section class="p-4">
-                                                <button type="button" class="float-right px-4 py-2 rounded-sm border-2 border-solid border-red-800 hover:bg-red-800 hover:text-white hover:cursor-pointer transition-all duration-200">
-                                                    Supprimer la promotion
-                                                </button>
-
                                                 {% if promotion.isDelegate %}
                                                 
                                                 <div class="flex flex-row justify-start items-center gap-x-4">
                                                     <i class="fa-solid fa-star text-yellow-500"></i>
                                                     <p>
-                                                        Est délégué
+                                                        Délégué
                                                     </p>
                                                 </div>
 
@@ -179,15 +175,24 @@
                                                 <div class="flex flex-row justify-start items-center gap-x-4">
                                                     <i class="fa-solid fa-star text-stone-800"></i>
                                                     <p>
-                                                        Étudiant lambda
+                                                        Étudiant
                                                     </p>
                                                 </div>
 
                                                 {% endif %}
                                                 
                                                 <ul class="list-disc">
-                                                    <li class="ml-8 my-4">Nombre d'étudiants sur cette année : 20</li>
-                                                    <li class="ml-8 my-4">Délégués de cette promotion : </li>
+                                                    <li class="ml-8 my-4">Nombre d'étudiants sur cette année : {{ promotion.flags.numberOfStudents }}</li>
+                                                    <li class="ml-8 my-4">Délégués de cette promotion :
+                                                        {% for delegate in promotion.flags.delegates%}
+                                                        <a class="text-blue-600 underline" href="./users/view/{{ delegate.userId }}">{{ delegate.userName }}</a>
+
+                                                        {% if not loop.last %}
+                                                        &nbsp;&&nbsp;
+                                                        {% endif %}
+
+                                                        {% endfor %}
+                                                    </li>
                                                 </ul>
                                             </section>
                                         </details>
@@ -201,7 +206,7 @@
                                 <div class="col-span-2 flex flew-row justify-center items-center gap-x-2 w-3/4 mx-auto">
                                     <div>
                                         <label for="settings-company-name" class="underline">Nom de l'entreprise : </label>
-                                        <input class="w-full px-4 py-2 border-2 border-solid border-gray-400" type="search" list="settings-job-companies" placeholder="Entrez le nom de votre organisation..." oninput="searchRegisteredCompanies(event, 'settings-job-companies');" onkeyup="showCompanyPreview(event)"; />
+                                        <input id="settings-company-name" class="w-full px-4 py-2 border-2 border-solid border-gray-400" type="search" list="settings-job-companies" placeholder="Entrez le nom de votre organisation..." value="{{ user.userJobData.company }}" oninput="searchRegisteredCompanies(event, 'settings-job-companies');" onkeyup="showCompanyPreview(event)"; />
                                     </div><span class="text-xl" onmouseover="showTooltip('search-company-tooltip');">&#x24D8;</span>
 
                                     <div id="search-company-tooltip" class="hidden">
@@ -212,7 +217,7 @@
 
                                 <div>
                                     <label for="settings-position-name" class="underline">Nom du poste : </label><br />
-                                    <input type="text" id="settings-position-name" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." />
+                                    <input type="text" id="settings-position-name" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." value="{{ user.userJobData.position }}" onkeyup="handleJobUpdateKey(event);" />
                                 </div>
 
                                 <div>
@@ -220,13 +225,13 @@
                                 </div>
 
                                 <div>
-                                    <label for="settings-position-name" class="underline">Commencé le : </label><br />
-                                    <input type="date" id="settings-position-name" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." />
+                                    <label for="settings-position-started" class="underline">Commencé le : </label><br />
+                                    <input type="date" id="settings-position-started" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." value="{{ (user.userJobData.startedAt is not null) ? user.userJobData.startedAt|date("Y-m-d") : '' }}" onchange="updateUserJobProfile(event);" />
                                 </div>
 
                                 <div class="mx-auto">
-                                    <label for="settings-position-name" class="underline">Terminé le : </label><br />
-                                    <input type="date" id="settings-position-name" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." />
+                                    <label for="settings-position-ended" class="underline">Terminé le : </label><br />
+                                    <input type="date" id="settings-position-ended" class="px-4 py-2 border-2 border-solid border-gray-400" placeholder="Entrez le nom de votre poste..." value="{{ (user.userJobData.stoppedAt is not null) ? user.userJobData.stoppedAt|date("Y-m-d") : '' }}" onchange="updateUserJobProfile(event);" />
                                 </div>
                             </form>
                         </div>
@@ -234,7 +239,7 @@
                         <div id="settings-privacy" class="tabcontent-dashboard-settings hidden p-4">
                             <div class="flex flex-row justify-start items-center gap-x-2">
                                 <label class="inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <input type="checkbox" value="" class="sr-only peer" checked onchange="toggleAnonymousMode(event);">
                                     <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
                                 </label>
     
@@ -251,20 +256,20 @@
                                 </button>
                                 {% endif %}
 
-                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-stone-300 border-2 border-solid hover:bg-stone-300 hover:cursor-pointer transition-all duration-200">
+                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-stone-300 border-2 border-solid hover:bg-stone-300 hover:cursor-pointer transition-all duration-200" onclick="gatherUserData();">
                                     Récupérer mes données (portabilité)
                                 </button>
 
-                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-red-700 border-2 border-solid hover:bg-red-700 hover:text-white hover:cursor-pointer transition-all duration-200">
+                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-red-700 border-2 border-solid hover:bg-red-700 hover:text-white hover:cursor-pointer transition-all duration-200" onclick="deactivateAccount();">
                                     Désactiver mon compte (temporaire)
                                 </button>
 
-                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-red-700 border-2 border-solid hover:bg-red-700 hover:text-white hover:cursor-pointer transition-all duration-200">
+                                <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-red-700 border-2 border-solid hover:bg-red-700 hover:text-white hover:cursor-pointer transition-all duration-200" onclick="deleteAccount();">
                                     Supprimer mon compte (définitif)
                                 </button>
                             </div>
 
-                            <form action="">
+                            <form action="#" onsubmit="sendQuestion(event);">
                                 <h2>Demande de renseignements</h2>
                                 <table class="w-full">
                                     <tr>
@@ -393,8 +398,14 @@
                 let container = document.querySelector('#settings-company-data-preview');
                 container.src = 'img/' + response.data.logo;
                 container.classList.remove('hidden');
+
+                updateUserProfile(e);
             }
         }
+    }
+
+    const handleJobUpdateKey = e => {
+        if (e.key === 'Enter') updateUserProfile(e);
     }
 </script>
 
