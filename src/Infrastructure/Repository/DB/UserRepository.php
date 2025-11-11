@@ -109,6 +109,14 @@ class UserRepository implements UserRepositoryInterface
         return true;
     }
 
+    public function authenticate(string $username, string $password): ?User
+    {
+        $user = $this->em->getRepository(UserDoctrine::class)->findOneBy(['username' => $username]);
+        if (is_null($user)) return false;
+
+        if (password_verify($password, $user->password)) return true;
+    }
+
     public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool
     {
         $user = $this->em->find(UserDoctrine::class, $userId);

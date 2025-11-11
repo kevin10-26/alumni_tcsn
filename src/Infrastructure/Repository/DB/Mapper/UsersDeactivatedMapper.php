@@ -13,11 +13,11 @@ class UsersDeactivatedMapper
         foreach($doctrineDeactivations as $deactivation)
         {
             $deactivations[] = new UsersDeactivated(
-                id: $doctrineDeactivations->getId(),
-                user: $user ?? $doctrineDeactivations->getUser()->getId(),
-                startedAt: $doctrineDeactivations->getStartedAt(),
-                endsAt: $doctrineDeactivations->getEndsAt(),
-                origin: $doctrineDeactivations->getOrigin()
+                id: $deactivation->getId(),
+                userId: $user ?? $deactivation->getUser()->getId(),
+                startedAt: $deactivation->getStartedAt(),
+                endsAt: $deactivation->getEndsAt(),
+                origin: $deactivation->getOrigin()
             );
         }
 

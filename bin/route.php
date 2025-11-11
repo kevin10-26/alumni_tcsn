@@ -16,6 +16,12 @@ use Alumni\Presentation\Controller\LegalController;
 return [
     ['method' => 'GET', 'path' => '/', 'handler' => [HomeController::class, 'index']],
 
+    ['method' => 'GET', 'path' => '/login', 'handler' => [UserController::class, 'login']],
+
+    ['method' => 'GET', 'path' => '/auth/login', 'handler' => [UserController::class, 'authenticate']],
+
+    ['method' => 'POST', 'path' => '/auth/register', 'handler' => [UserController::class, 'identify']],
+
     ['method' => 'GET', 'path' => '/dashboard', 'handler' => [UserController::class, 'dashboard']],
 
     ['method' => 'POST', 'path' => '/dashboard/user/update', 'handler' => [UserController::class, 'updateUserProfile']],

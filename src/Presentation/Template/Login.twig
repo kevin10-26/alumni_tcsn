@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - Alumni TCSN</title>
+
+  <link rel="stylesheet" href="css/output.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center bg-no-repeat bg-cover" style="background-image: url(img/assets/site/lru_droit.jpg);">
+
+    <div class="bg-white shadow-lg rounded-2xl w-full max-w-md p-6">
+        <div class="flex justify-center mb-6">
+          <img src="./img/assets/site/lru_tcsn_logo.png" alt="Logo Alumni" class="h-12 w-auto">
+        </div>
+    
+        <!-- Onglets -->
+        <div class="flex mb-6 border-b border-gray-200">
+          <button id="tab-login" data-id="login-form" class="login-tablink flex-1 text-center py-2 font-medium border-b-2 border-blue-600 text-blue-600 hover:cursor-pointer">
+            Connexion
+          </button>
+          <button id="tab-register" data-id="register-form" class="login-tablink flex-1 text-center py-2 font-medium border-b-2 border-transparent text-gray-500 hover:cursor-pointer hover:text-blue-600">
+            Inscription
+          </button>
+        </div>
+    
+        <!-- Formulaire de connexion -->
+        <form id="login-form" class="login-tabcontent space-y-4" method="post" action="./auth/login">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Adresse e-mail</label>
+            <input type="email" id="email" name="email" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+            <input type="password" id="password" name="password" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+    
+          <div class="flex items-center justify-between">
+            <label class="flex items-center text-sm text-gray-600">
+              <input id="rememberMe" type="checkbox" class="mr-2 rounded border-gray-300">
+              Se souvenir de moi
+            </label>
+            <a href="#" class="text-sm text-blue-600 hover:underline">Mot de passe oublié ?</a>
+          </div>
+    
+          <button type="submit"
+                  class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-150">
+            Se connecter
+          </button>
+        </form>
+    
+        <!-- Formulaire d’inscription -->
+        <form id="register-form" class="login-tabcontent space-y-4 hidden" onsubmit="checkPasswordsBeforeSubmitting(event);">
+    
+          <div>
+            <label for="register-username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+            <input type="text" id="register-username" name="register-email" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div>
+            <label for="register-email" class="block text-sm font-medium text-gray-700">Adresse e-mail</label>
+            <input type="email" id="register-email" name="register-email" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          <div>
+            <label for="register-password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+            <input type="password" id="register-password" name="register-password" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div>
+            <label for="register-password-confirm" class="block text-sm font-medium text-gray-700">Confirmez le mot de passe</label>
+            <input type="password" id="register-password-confirm" name="register-password-confirm" required
+                   class="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+    
+          <button type="submit"
+                  class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-150">
+            Créer mon compte
+          </button>
+        </form>
+    
+        <!-- Pied -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+          © 2025 Alumni TCSN — Tous droits réservés
+        </div>
+      </div>
+
+      <script src="./js/Frontend.js"></script>
+      <script src="./js/AuthManager.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const rememberMe = document.getElementById("rememberMe");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        // Gestion "Se souvenir de moi"
+        if (localStorage.getItem("rememberMe") && localStorage.getItem("rememberMe") !== "") {
+            rememberMe.checked = true;
+            email.value = localStorage.getItem("email") || "";
+            password.value = localStorage.getItem("password") || "";
+        } else {
+            rememberMe.checked = false;
+            email.value = "";
+            password.value = "";
+        }
+
+        rememberMe.addEventListener("change", function () {
+            if (rememberMe.checked) {
+                localStorage.setItem("email", email.value);
+                localStorage.setItem("password", password.value);
+                localStorage.setItem("rememberMe", "checked");
+            } else {
+                localStorage.removeItem("email");
+                localStorage.removeItem("password");
+                localStorage.removeItem("rememberMe");
+            }
+        });
+
+        // Gestion des tabs Connexion / Inscription
+        const tabLinks = document.querySelectorAll(".login-tablink");
+        const tabContents = document.querySelectorAll(".login-tabcontent");
+
+        tabLinks.forEach((tab) => {
+            tab.addEventListener("click", (e) => {
+                const target = e.target;
+                const tabId = target.dataset.id;
+
+                // Masquer tous les formulaires
+                tabContents.forEach((form) => form.classList.add("hidden"));
+
+                // Retirer les classes actives de tous les onglets
+                tabLinks.forEach((btn) => {
+                    btn.classList.remove("border-blue-600", "text-blue-600");
+                    btn.classList.add("border-transparent", "text-gray-500");
+                });
+
+                // Activer le bon onglet
+                target.classList.add("border-blue-600", "text-blue-600");
+                target.classList.remove("border-transparent", "text-gray-500");
+
+                // Afficher le bon formulaire
+                const activeForm = document.getElementById(tabId);
+                if (activeForm) {
+                    activeForm.classList.remove("hidden");
+                }
+            });
+        });
+    });
+
+    const checkPasswordsBeforeSubmitting = async (e) => {
+        e.preventDefault();
+        
+        if (document.getElementById('register-password').value === document.getElementById('register-password-confirm').value && (e.target[2].value.length > 6 || e.target[3].value.length > 6))
+        {
+            let authManager = new AuthManager();
+            let xhr = await authManager.makeAuthenticatedRequest('./auth/register', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: e.target[0].value,
+                    emailAddress: e.target[1].value,
+                    password: e.target[2].value
+                })
+            })
+        } else {
+            // snackbar (password must match and be at least 6-char long)
+        }
+    }
+</script>
+
+
+</body>
+</html>

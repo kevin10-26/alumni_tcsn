@@ -83,6 +83,9 @@ use Alumni\Infrastructure\Repository\File\UserFileRepository;
 use Alumni\Domain\Repository\DB\ReportsRepositoryInterface;
 use Alumni\Infrastructure\Repository\DB\ReportsRepository;
 
+use Alumni\Domain\Repository\DB\RegistrationPoolRepositoryInterface;
+use Alumni\Infrastructure\Repository\DB\RegistrationPoolRepository;
+
 
 // use Alumni\Infrastructure\Repository\DB\UserMapper;
 
@@ -160,6 +163,7 @@ return [
     AnnouncesRepositoryInterface::class => DI\autowire(AnnouncesRepository::class),
     ReportsRepositoryInterface::class => DI\autowire(ReportsRepository::class),
     StudentRepositoryInterface::class => DI\autowire(StudentRepository::class),
+    RegistrationPoolRepositoryInterface::class => DI\autowire(RegistrationPoolRepository::class),
     ChannelFileRepositoryInterface::class => DI\autowire(ChannelFileRepository::class),
     PostChannelFileRepositoryInterface::class => DI\autowire(PostChannelFileRepository::class),
     UserFileRepositoryInterface::class => DI\autowire(UserFileRepository::class),

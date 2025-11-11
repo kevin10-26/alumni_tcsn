@@ -51,7 +51,6 @@ $dispatcher = new Dispatcher([
 $request = ServerRequestFactory::fromGlobals();
 
 try {
-    
     $response = $dispatcher->dispatch($request);
     
 } catch (\Throwable $e) {

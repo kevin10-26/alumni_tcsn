@@ -9,6 +9,12 @@ use Laminas\Diactoros\Response\JsonResponse;
 
 use Twig\Environment;
 
+use Alumni\Application\UseCase\RegisterUser\RegisterUserUseCase;
+use Alumni\Application\UseCase\RegisterUser\RegisterUserRequest;
+
+use Alumni\Application\UseCase\AuthenticateUser\AuthenticateUserUseCase;
+use Alumni\Application\UseCase\AuthenticateUser\AuthenticateUserRequest;
+
 use Alumni\Application\UseCase\GetAdminDashboard\GetAdminDashboardUseCase;
 use Alumni\Application\UseCase\GetAdminDashboard\GetAdminDashboardRequest;
 
@@ -18,12 +24,17 @@ use Alumni\Application\UseCase\UpdateUserProfile\UpdateUserProfileRequest;
 use Alumni\Application\UseCase\UpdateUserAvatar\UpdateUserAvatarUseCase;
 use Alumni\Application\UseCase\UpdateUserAvatar\UpdateUserAvatarRequest;
 
+use Alumni\Application\UseCase\DeactivateAccount\DeactivateAccountUseCase;
+use Alumni\Application\UseCase\DeactivateAccount\DeactivateAccountRequest;
+
 use Alumni\Application\UseCase\ReactivateAccount\ReactivateAccountUseCase;
 use Alumni\Application\UseCase\ReactivateAccount\ReactivateAccountRequest;
 
 class UserController
 {
     public function __construct(
+        private readonly RegisterUserUseCase $registerUser,
+        private readonly AuthenticateUserUseCase $authenticateUser,
         private readonly GetAdminDashboardUseCase $getAdminDashboard,
         private readonly UpdateUserProfileUseCase $updateUserProfile,
         private readonly UpdateUserAvatarUseCase $updateUserAvatar,
@@ -31,6 +42,39 @@ class UserController
         private readonly ReactivateAccountUseCase $reactivateAccount,
         private readonly Environment $twig
     ) {}
+
+    public function login(): HtmlResponse
+    {
+        return new HtmlResponse($this->twig->render('./Login.twig', []), 200);
+    }
+
+    public function identify(ServerRequestInterface $request): JsonResponse
+    {
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true) ?? [];
+
+        $request = new RegisterUserRequest($requestBody['username'], $requestBody['emailAddress'], $requestBody['password']);
+        $response = $this->registerUser->execute($request);
+
+        return new JsonResponse([
+            'status' => $response->status,
+            'msg' => $response->msg
+        ], $response->status);
+    }
+
+    public function authenticate(ServerRequestInterface $request): JsonResponse
+    {
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true) ?? [];
+
+        $request = new AuthenticateUserRequest($requestBody['username'], $requestBody['password']);
+        $response = $this->authenticateUser->execute($request);
+
+        return new JsonResponse([
+            'status' => $response->status,
+            'msg' => $response->msg
+        ], $response->status);
+    }
 
     public function dashboard(ServerRequestInterface $request): HtmlResponse
     {
