@@ -27,6 +27,7 @@ class UserService implements UserServiceInterface
         $map = [
             'user-name' => 'name',
             'user-email' => 'email',
+            'user-anonymous' => 'isAnonymous',
             'user-firstName' => 'firstName',
             'user-lastName' => 'lastName',
             'settings-password' => 'passwordHash',
@@ -45,10 +46,23 @@ class UserService implements UserServiceInterface
         return $map[$uiField];
     }
 
+    public function getCorrectValue(string $field, mixed $value): mixed
+    {
+        switch($field)
+        {
+            case 'passwordHash':
+                return password_hash($value, PASSWORD_DEFAULT);
+                break;
+
+            default:
+                return $value;
+        }
+    }
+
     // Determine which entity contains the field
     public function getUserProfileType(string $dbField): string
     {
-        $accountFields = ['name', 'email', 'passwordHash'];
+        $accountFields = ['name', 'email', 'passwordHash', 'isAnonymous'];
         $dataFields = ['firstName', 'lastName', 'avatar'];
         $jobFields = ['company', 'position', 'startDate', 'endDate'];
 

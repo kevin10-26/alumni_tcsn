@@ -11,6 +11,7 @@ use Alumni\Presentation\Controller\ChannelPostController;
 use Alumni\Presentation\Controller\AnnouncesController;
 use Alumni\Presentation\Controller\JobsController;
 use Alumni\Presentation\Controller\ReportsController;
+use Alumni\Presentation\Controller\LegalController;
 
 return [
     ['method' => 'GET', 'path' => '/', 'handler' => [HomeController::class, 'index']],
@@ -57,5 +58,7 @@ return [
 
     ['method' => 'GET', 'path' => '/jobs/offers/list', 'handler' => [JobsController::class, 'list']],
 
-    ['method' => 'POST', 'path' => '/report/create', 'handler' => [ReportsController::class, 'create']]
+    ['method' => 'POST', 'path' => '/report/create', 'handler' => [ReportsController::class, 'create']],
+
+    ['method' => 'POST', 'path' => '/legal/portability', 'handler' => [LegalController::class, 'portability']]
 ];

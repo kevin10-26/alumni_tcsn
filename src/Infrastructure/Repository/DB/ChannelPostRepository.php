@@ -124,6 +124,28 @@ class ChannelPostRepository implements ChannelPostRepositoryInterface
 
         return $posts;
     }
+    
+    public function getPostsOfAuthorPerChannel(int $userId, int $channelId): array
+    {
+        $queryPosts = $this->em->createQuery(
+            'SELECT cp
+            FROM Alumni\Infrastructure\Entity\ChannelPostDoctrine cp
+            WHERE IDENTITY(cp.channel) = :channel
+            AND IDENTITY(cp.author) = :author'
+        )
+        ->setParameter('channel', $channelId)
+        ->setParameter('author', $userId);
+
+        $userPostsDoctrine = $queryPosts->getResult();
+
+        $userPosts = [];
+
+        foreach($userPostsDoctrine as $post)
+        {
+            $userPosts[] = $this->postMapper->toDomain($post);
+        }
+        return $userPosts;
+    }
 
     /**
      * Adds a file to the file pool for temporary storage before attachment to a post.

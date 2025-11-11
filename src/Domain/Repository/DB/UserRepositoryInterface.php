@@ -8,5 +8,5 @@ interface UserRepositoryInterface
 {
     public function getAll(): array;
     public function getBy(array $conditions): User;
-    public function update(int $userId, string $field, string $value): bool;
+    public function update(int $userId, string $field, mixed $value): bool;
 }

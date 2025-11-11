@@ -22,6 +22,7 @@ interface UserServiceInterface
      * @return string 'account' for UserDoctrine, 'data' for UserDataDoctrine
      */
     public function getUserProfileType(string $dbField): string;
+    public function getCorrectValue(string $field, mixed $value): mixed;
 
     public function getAvatar(object $avatar): File;
 }

@@ -1,0 +1,12 @@
+<div class="w-full p-4 rounded-xl bg-gray-200 my-4">
+    <h2>Votre fichier est prêt !</h2>
+    <p class="my-4">
+        Vous pouvez dès à présent le télécharger. Il vous a également été envoyé sur votre adresse mail la plus récente (étudiante si vous l'êtes encore, ou celle que vous avez renseignée).
+    </p>
+
+    <div class="m-4">
+        <button type="button" class="px-4 py-2 bg-gray-50 hover:underline hover:border-gray-200 hover:cursor-pointer hover:border-2 hover:border-solid" onclick="window.location.href = '{{ file }}';">
+            {{ file|split('/')|last }}
+        </button>
+    </div>
+</div>

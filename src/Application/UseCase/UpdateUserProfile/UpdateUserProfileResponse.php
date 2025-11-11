@@ -7,6 +7,6 @@ class UpdateUserProfileResponse
     public function __construct(
         public readonly int $status,
         public readonly string $msg,
-        public readonly string $updatedValue
+        public readonly mixed $updatedValue
     ) {}
 }

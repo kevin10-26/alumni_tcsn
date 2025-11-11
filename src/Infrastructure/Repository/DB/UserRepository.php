@@ -65,7 +65,7 @@ class UserRepository implements UserRepositoryInterface
         return $this->mapper->toDomain($adminDoctrine);
     }
 
-    public function update(int $userId, string $field, string $value): bool
+    public function update(int $userId, string $field, mixed $value): bool
     {
         $matchingField = $this->userService->getDatabaseField($field);
         $userProfileType = $this->userService->getUserProfileType($matchingField);
@@ -97,7 +97,7 @@ class UserRepository implements UserRepositoryInterface
                 throw new \RuntimeException("Type de profil inconnu : $userProfileType");
         }
 
-        if ($matchingField === 'passwordHash') $value = password_hash($value, PASSWORD_DEFAULT);
+        $value = $this->userService->getCorrectValue($matchingField, $value);
 
         $query = $this->em->createQuery($dql)
             ->setParameter('value', $value)

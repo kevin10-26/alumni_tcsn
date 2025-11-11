@@ -7,4 +7,5 @@ use Alumni\Domain\Entity\File;
 interface UserFileRepositoryInterface
 {
     public function moveAvatar(int $userId, File $avatar): string;
+    public function generatePortabilityFile(array $userData, int $userId): string;
 }

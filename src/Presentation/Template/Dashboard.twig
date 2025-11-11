@@ -239,7 +239,7 @@
                         <div id="settings-privacy" class="tabcontent-dashboard-settings hidden p-4">
                             <div class="flex flex-row justify-start items-center gap-x-2">
                                 <label class="inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked onchange="toggleAnonymousMode(event);">
+                                    <input type="checkbox" id="user-anonymous" class="sr-only peer" {{ user.isAnonymous ? 'checked' : '' }} onclick="updateUserProfile(event);">
                                     <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
                                 </label>
     
@@ -247,6 +247,8 @@
                                     Masquer mes informations personnelles aux autres utilisateurs (pseudo, prénom, nom, adresse e-mail, avatar). Cela concerne les channels, la diffusion des offres d'emploi / stage ainsi que toute autre information visible aux autres utilisateurs sur ce site Web. Seuls les administrateurs sont habilités à voir et traiter ces informations.
                                 </p>
                             </div>
+                            
+                            <div id="portability-document"></div>
 
                             <div class="grid grid-cols-2 gap-4 my-6">
                                 {% if 1 in user.studentData|column('isDelegate') %}
@@ -255,7 +257,7 @@
                                     <span>Accéder à Zafkiel</span>
                                 </button>
                                 {% endif %}
-
+                                
                                 <button type="button" class="flex flex-row justify-center items-center gap-x-2 w-3/4 mx-auto px-4 py-2 bg-transparent border-stone-300 border-2 border-solid hover:bg-stone-300 hover:cursor-pointer transition-all duration-200" onclick="gatherUserData();">
                                     Récupérer mes données (portabilité)
                                 </button>

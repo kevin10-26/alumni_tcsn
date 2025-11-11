@@ -51,12 +51,19 @@ const updateUserAvatar = async (e) => {
         body: formData
     });
 
-    let response = await xhr.json();
+    const response = await xhr.json();
     document.getElementById('user-avatar-dashboard').src = response.avatarPath;
     //snackbar
 }
 
 const updateUserProfile = async (e) => {
+    const target = e.target;
+    const isCheckbox = target.type === 'checkbox';
+
+    const value = isCheckbox
+        ? target.checked
+        : (target.value ?? target.textContent);
+
     let authManager = new AuthManager();
     let xhr = await authManager.makeAuthenticatedRequest('./dashboard/user/update', {
         method: 'POST',
@@ -64,11 +71,24 @@ const updateUserProfile = async (e) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            field: e.target.id,
-            value: e.target.value ?? e.target.textContent
+            field: target.id,
+            value: value
         })
     });
 
-    let response = await xhr.json();
+    const response = await xhr.json();
     // snackbar
+};
+
+const gatherUserData = async () => {
+    let authManager = new AuthManager();
+    let xhr = await authManager.makeAuthenticatedRequest('./legal/portability', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
+
+    const response = await xhr.text();
+    document.getElementById('portability-document').innerHTML = response;
 }

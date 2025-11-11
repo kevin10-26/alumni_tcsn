@@ -27,7 +27,7 @@ class UserMapper
             userData: $userDoctrine->getUserData() ? $this->userDataMapper->toDomain($userDoctrine->getUserData()) : null,
             studentData: $userDoctrine->getStudentData() ? $this->studentDataMapper->mapStudentDataToArray($userDoctrine->getStudentData()) : null,
             userJobData: $userDoctrine->getUserJobData() ? $this->userJobDataMapper->toDomain($userDoctrine->getUserJobData()) : null,
-            isAnonymous: $userDoctrine->isAnonymous() ? $userDoctrine->isAnonymous() : true
+            isAnonymous: $userDoctrine->isAnonymous()
         );
     }
 

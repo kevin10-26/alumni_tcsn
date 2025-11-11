@@ -7,6 +7,6 @@ class UpdateUserProfileRequest
     public function __construct(
         public readonly int $userId,
         public readonly string $field,
-        public readonly string $value
+        public readonly mixed $value
     ) {}
 }

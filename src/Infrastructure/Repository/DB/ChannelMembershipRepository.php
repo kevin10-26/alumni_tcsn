@@ -15,6 +15,7 @@ use Alumni\Domain\Entity\ChannelMembership;
 use Alumni\Domain\Entity\User;
 
 use Alumni\Domain\Repository\DB\ChannelMembershipRepositoryInterface;
+use Alumni\Domain\Repository\DB\ChannelPostRepositoryInterface;
 
 /**
  * Repository implementation for managing ChannelMembership entities in the database.
@@ -34,6 +35,7 @@ class ChannelMembershipRepository implements ChannelMembershipRepositoryInterfac
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ChannelMembershipMapper $mapper,
+        private readonly ChannelPostRepositoryInterface $channelPostRepository,
         private readonly UserMapper $userMapper
     ) {}
 
@@ -67,6 +69,28 @@ class ChannelMembershipRepository implements ChannelMembershipRepositoryInterfac
 
         return array_map(
             fn($membership) => $this->mapper->toDomain($membership),
+            $memberships
+        );
+    }
+
+    /**
+     * Retrieves all channels that a user is a member of for portability data.
+     * 
+     * @param int $userId The ID of the user
+     * @return array<ChannelMembership> Array of memberships for the user as domain entities + the posts of this author per channel
+     */
+    public function getAllChannelsDataForUser(int $userId): array
+    {
+        $memberships = $this->em->getRepository(ChannelMembershipDoctrine::class)
+            ->findBy(['user' => $userId]);
+
+        return array_map(
+            function($membership) {
+                return [
+                    'memberOf' => $this->mapper->toDomain($membership),
+                    'posts' => $this->channelPostRepository->getPostsOfAuthorPerChannel($membership->getUser()->getId(), $membership->getChannel()->getId())
+                ];
+            },
             $memberships
         );
     }
