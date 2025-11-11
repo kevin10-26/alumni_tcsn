@@ -13,7 +13,8 @@ class UserMapper
     public function __construct(
         private readonly UserDataMapper $userDataMapper,
         private readonly StudentDataMapper $studentDataMapper,
-        private readonly UserJobDataMapper $userJobDataMapper
+        private readonly UserJobDataMapper $userJobDataMapper,
+        private readonly UsersDeactivatedMapper $deactivationsMapper
     ) {}
 
     public function toDomain(UserDoctrine $userDoctrine): User
@@ -27,6 +28,7 @@ class UserMapper
             userData: $userDoctrine->getUserData() ? $this->userDataMapper->toDomain($userDoctrine->getUserData()) : null,
             studentData: $userDoctrine->getStudentData() ? $this->studentDataMapper->mapStudentDataToArray($userDoctrine->getStudentData()) : null,
             userJobData: $userDoctrine->getUserJobData() ? $this->userJobDataMapper->toDomain($userDoctrine->getUserJobData()) : null,
+            deactivations: $userDoctrine->getDeactivations() ? $this->deactivationsMapper->toDomain($userDoctrine->getDeactivations()) : null,
             isAnonymous: $userDoctrine->isAnonymous()
         );
     }
@@ -50,6 +52,10 @@ class UserMapper
 
         if ($user->userJobData) {
             $userDoctrine->setUserJobData($this->userJobDataMapper->toDoctrine($user->userJobData));
+        }
+
+        if ($user->deactivations) {
+            $userDoctrine->setDeactivation($this->deactivationsMapper->toDoctrine($user->deactivations));
         }
 
         return $userDoctrine;

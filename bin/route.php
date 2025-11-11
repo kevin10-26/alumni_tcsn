@@ -22,6 +22,8 @@ return [
 
     ['method' => 'POST', 'path' => '/dashboard/user/updateAvatar', 'handler' => [UserController::class, 'updateUserAvatar']],
 
+    ['method' => 'POST', 'path' => '/dashboard/user/deactivate', 'handler' => [UserController::class, 'deactivate']],
+
     ['method' => 'POST', 'path' => '/auth/refresh', 'handler' => [AuthController::class, 'refreshToken']],
 
     ['method' => 'POST', 'path' => '/companies/search', 'handler' => [CompanyController::class, 'search']],

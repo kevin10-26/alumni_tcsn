@@ -18,12 +18,17 @@ use Alumni\Application\UseCase\UpdateUserProfile\UpdateUserProfileRequest;
 use Alumni\Application\UseCase\UpdateUserAvatar\UpdateUserAvatarUseCase;
 use Alumni\Application\UseCase\UpdateUserAvatar\UpdateUserAvatarRequest;
 
+use Alumni\Application\UseCase\ReactivateAccount\ReactivateAccountUseCase;
+use Alumni\Application\UseCase\ReactivateAccount\ReactivateAccountRequest;
+
 class UserController
 {
     public function __construct(
         private readonly GetAdminDashboardUseCase $getAdminDashboard,
         private readonly UpdateUserProfileUseCase $updateUserProfile,
         private readonly UpdateUserAvatarUseCase $updateUserAvatar,
+        private readonly DeactivateAccountUseCase $deactivateAccount,
+        private readonly ReactivateAccountUseCase $reactivateAccount,
         private readonly Environment $twig
     ) {}
 
@@ -42,7 +47,7 @@ class UserController
         ]), $response->status);
     }
 
-    public function updateUserProfile(ServerRequestInterface $request)
+    public function updateUserProfile(ServerRequestInterface $request): JsonResponse
     {
         $user = $request->getAttribute('user')->token;
 
@@ -59,7 +64,7 @@ class UserController
         ], $response->status);
     }
 
-    public function updateUserAvatar(ServerRequestInterface $request)
+    public function updateUserAvatar(ServerRequestInterface $request): JsonResponse
     {
         $user = $request->getAttribute('user')->token;
 
@@ -70,6 +75,36 @@ class UserController
             'status' => $response->status,
             'msg' => $response->msg,
             'avatarPath' => $response->updatedAvatarPath
+        ], $response->status);
+    }
+
+    public function deactivate(ServerRequestInterface $request): JsonResponse
+    {
+        $user = $request->getAttribute('user')->token;
+
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true) ?? [];
+
+        $requestDTO = new DeactivateAccountRequest($user['userId'], intval($requestBody['daysDeactivated']));
+        $response = $this->deactivateAccount->execute($requestDTO);
+
+        return new JsonResponse([
+            'status' => $response->status
+        ], $response->status);
+    }
+
+    public function reactivate(ServerRequestInterface $request): JsonResponse
+    {
+        $user = $request->getAttribute('user')->token;
+
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true) ?? [];
+
+        $requestDTO = new ReactivateAccountRequest($user['userId'], intval($requestBody['daysDeactivated']));
+        $response = $this->reactivateAccount->execute($requestDTO);
+
+        return new JsonResponse([
+            'status' => $response->status
         ], $response->status);
     }
 }

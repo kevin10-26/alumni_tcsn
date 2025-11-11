@@ -9,6 +9,7 @@ use Alumni\Domain\Repository\DB\UserRepositoryInterface;
 use Alumni\Domain\Entity\User;
 
 use Alumni\Infrastructure\Entity\UserDoctrine;
+use Alumni\Infrastructure\Entity\UsersDeactivatedDoctrine;
 
 use Alumni\Infrastructure\Repository\DB\Mapper\UserMapper;
 
@@ -104,6 +105,46 @@ class UserRepository implements UserRepositoryInterface
             ->setParameter('id', $userId);
 
         $query->execute();
+
+        return true;
+    }
+
+    public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool
+    {
+        $user = $this->em->find(UserDoctrine::class, $userId);
+        if (is_null($user))
+        {
+            return false;
+        }
+
+        $deactivation = new UsersDeactivatedDoctrine();
+        $deactivation->setUser($user);
+        $deactivation->setStartedAt(new \DateTime('now'));
+        $deactivation->setEndsAt(new \DateTime($deactivationEndsTimestamps));
+        $deactivation->setOrigin($origin);
+
+        $this->em->persist($deactivation);
+        $this->em->flush();
+
+        return true;
+    }
+
+    public function reactivate(int $userId): bool
+    {
+        $user = $this->em->find(UserDoctrine::class, $userId);
+        if (is_null($user))
+        {
+            return false;
+        }
+
+        $lastDeactivation = $this->em->getRepository(UsersDeactivatedDoctrine::class)->findOneBy(['endsAt' => null]);
+        if (is_null($lastDeactivation))
+        {
+            return false;
+        }
+
+        $this->em->remove($lastDeactivation);
+        $this->em->flush();
 
         return true;
     }

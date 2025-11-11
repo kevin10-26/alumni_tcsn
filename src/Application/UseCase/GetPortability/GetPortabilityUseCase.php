@@ -44,7 +44,7 @@ class GetPortabilityUseCase
         $this->mailingService->send('Votre fichier est prêt, il est en pièce jointe.', $allData['profile']->emailAddress->value(), $mailFlags);
 
         return new GetPortabilityResponse(
-            status: $file ? 200 : 500,
+            status: $data ? 200 : 500,
             pathToPortabilityFile: $data['filePath']
         );
     }

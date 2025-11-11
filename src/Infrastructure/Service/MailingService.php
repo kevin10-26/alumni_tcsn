@@ -36,7 +36,6 @@ class MailingService implements MailingServiceInterface
             if ($response->success()) {
                 // debug : display mailjet data
                 // var_dump($response->getData());
-                echo 'Message has been sent';
                 return true;
             } else {
                 // Complete debug

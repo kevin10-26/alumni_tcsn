@@ -92,3 +92,33 @@ const gatherUserData = async () => {
     const response = await xhr.text();
     document.getElementById('portability-document').innerHTML = response;
 }
+
+const deactivateAccount = async (e) => {
+
+    let numberOfDays = prompt('Entrez le nombre de jours pendant lesquels votre compte sera désactivé.');
+
+    if (parseInt(numberOfDays) === NaN)
+    {
+        alert('Veuillez recommencer et entrer un nombre valide');
+
+    } else {
+        let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./dashboard/user/deactivate', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                daysDeactivated: numberOfDays
+            })
+        });
+
+        let response = await xhr.json();
+        if (response.status === 200)
+        {
+            window.location.href = './login';
+        } else {
+            // snackbar, it failed
+        }
+    }
+}

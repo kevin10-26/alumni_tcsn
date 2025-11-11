@@ -40,6 +40,9 @@ class UserDoctrine
     #[ORM\OneToOne(targetEntity: UserJobDataDoctrine::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserJobDataDoctrine $userJobData = null;
 
+    #[ORM\OneToMany(targetEntity: UsersDeactivatedDoctrine::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Collection $deactivations = null;
+
     #[ORM\ManyToMany(targetEntity: JobOfferDoctrine::class, inversedBy: 'savedBy')]
     private ?Collection $savedOffers;
 
@@ -51,6 +54,7 @@ class UserDoctrine
     {
         $this->studentData = new ArrayCollection();
         $this->savedOffers = new ArrayCollection();
+        $this->deactivations = new ArrayCollection();
     }
 
     public function getId(): int
@@ -185,6 +189,35 @@ class UserDoctrine
     public function setReports(?ReportsDoctrine $reports): self
     {
         $this->reports = $reports;
+        return $this;
+    }
+
+    public function getDeactivations(): ?Collection
+    {
+        return $this->deactivations;
+    }
+
+    public function addDeactivation(UsersDeactivatedDoctrine $deactivation): self
+    {
+        if (!$this->deactivations->contains($deactivation))
+        {
+            $this->deactivations->add($deactivation);
+        }
+        return $this;
+    }
+
+    public function removeDeactivation(UsersDeactivatedDoctrine $deactivation): self
+    {
+        if ($this->deactivations->contains($deactivation))
+        {
+            $this->deactivations->remove($deactivation);
+        }
+        return $this;
+    }
+
+    public function setDeactivations(?Collection $deactivations): self
+    {
+        $this->deactivations = $deactivations;
         return $this;
     }
 }

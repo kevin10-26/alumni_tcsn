@@ -15,6 +15,12 @@ class User
         public readonly bool $isAnonymous,
         public readonly ?UserData $userData = null,
         public ?array $studentData = null,
-        public readonly ?UserJobData $userJobData = null
+        public readonly ?UserJobData $userJobData = null,
+        public readonly array $deactivations = []
     ) {}
+
+    public function hasBeenDelegate()
+    {
+        return in_array(1, array_column($this->studentData, 'isDelegate'));
+    }
 }

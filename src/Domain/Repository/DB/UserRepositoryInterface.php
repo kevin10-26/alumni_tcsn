@@ -9,4 +9,6 @@ interface UserRepositoryInterface
     public function getAll(): array;
     public function getBy(array $conditions): User;
     public function update(int $userId, string $field, mixed $value): bool;
+    public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool;
+    public function reactivate(int $userId): bool;
 }
