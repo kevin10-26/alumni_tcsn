@@ -5,7 +5,7 @@ namespace Alumni\Application\UseCase\AuthenticateUser;
 class AuthenticateUserRequest
 {
     public function __construct(
-        public readonly string $username,
+        public readonly string $emailAddress,
         public readonly string $password
     ) {}
 }

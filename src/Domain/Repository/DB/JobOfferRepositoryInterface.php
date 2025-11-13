@@ -11,4 +11,5 @@ interface JobOfferRepositoryInterface
     public function getByCompany(int $companyId): array;
     public function getByAuthor(int $authorId): array;
     public function getUserSavedOffers(int $userId): array;
+    public function remove(int $id): bool;
 }

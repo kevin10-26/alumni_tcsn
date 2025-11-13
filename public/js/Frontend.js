@@ -25,8 +25,6 @@ class Frontend
             tablinksNodes[i].classList.remove(tablinks + "-active");
         }
 
-        console.debug(tablinks);
-
         for(i = 0; i < tabcontentNodes.length; i++)
         {
             tabcontentNodes[i].style.display = 'none';

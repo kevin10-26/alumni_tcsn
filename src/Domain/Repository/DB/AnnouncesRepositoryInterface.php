@@ -8,4 +8,5 @@ interface AnnouncesRepositoryInterface
 {
     public function getAll(): array;
     public function getBy(array $condition): Announce;
+    public function remove(int $id): bool;
 }

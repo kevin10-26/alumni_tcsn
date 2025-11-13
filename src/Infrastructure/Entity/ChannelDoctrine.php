@@ -28,18 +28,14 @@ class ChannelDoctrine
     private bool $isPublic;
 
     #[ORM\ManyToOne(targetEntity: UserDoctrine::class)]
-    #[ORM\JoinColumn(name: 'founder_id', referencedColumnName: 'id')]
-    private UserDoctrine $founder;
+    #[ORM\JoinColumn(name: 'founder_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?UserDoctrine $founder = null;
 
     #[ORM\OneToMany(targetEntity: ChannelMembershipDoctrine::class, mappedBy: 'channel', cascade: ['remove', 'persist'])]
     private Collection $members;
 
     #[ORM\OneToMany(targetEntity: ChannelPostDoctrine::class, mappedBy: 'channel', cascade: ['remove', 'persist'])]
     private Collection $posts;
-
-    #[ORM\ManyToOne(targetEntity: ReportsDoctrine::class, inversedBy: 'channel')]
-    #[ORM\JoinColumn(name: 'reports_id', referencedColumnName: 'id', nullable: true)]
-    private ?ReportsDoctrine $reports = null;
 
     public function __construct()
     {
@@ -96,25 +92,14 @@ class ChannelDoctrine
         return $this;
     }
 
-    public function getFounder(): UserDoctrine
+    public function getFounder(): ?UserDoctrine
     {
         return $this->founder;
     }
 
-    public function setFounder(UserDoctrine $founder): self
+    public function setFounder(?UserDoctrine $founder): self
     {
         $this->founder = $founder;
-        return $this;
-    }
-
-    public function getReports(): ?ReportsDoctrine
-    {
-        return $this->reports;
-    }
-
-    public function setReports(?ReportsDoctrine $reports): self
-    {
-        $this->reports = $reports;
         return $this;
     }
 }

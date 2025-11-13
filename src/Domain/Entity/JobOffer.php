@@ -11,6 +11,6 @@ class JobOffer
         public readonly Company $company,
         public readonly string $jobType,
         public readonly ?string $minimumDuration,
-        public readonly User $author
+        public readonly ?User $author
     ) {}
 }

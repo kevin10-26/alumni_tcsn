@@ -32,15 +32,11 @@ class JobOfferDoctrine
     public ?string $minimumDuration;
 
     #[ORM\ManyToOne(targetEntity: UserDoctrine::class)]
-    #[ORM\JoinColumn(name: 'author', referencedColumnName: 'id')]
-    public UserDoctrine $author;
+    #[ORM\JoinColumn(name: 'author', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?UserDoctrine $author = null;
 
     #[ORM\ManyToMany(targetEntity: UserDoctrine::class, mappedBy: 'savedOffers')]
     public Collection $savedBy;
-
-    #[ORM\ManyToOne(targetEntity: ReportsDoctrine::class, inversedBy: 'jobOffer')]
-    #[ORM\JoinColumn(name: 'reports_id', referencedColumnName: 'id', nullable: true)]
-    private ?ReportsDoctrine $reports = null;
 
     public function __construct()
     {
@@ -107,25 +103,14 @@ class JobOfferDoctrine
         return $this;
     }
 
-    public function getAuthor(): UserDoctrine
+    public function getAuthor(): ?UserDoctrine
     {
         return $this->author;
     }
 
-    public function setAuthor(UserDoctrine $author): self
+    public function setAuthor(?UserDoctrine $author): self
     {
         $this->author = $author;
-        return $this;
-    }
-
-    public function getReports(): ?ReportsDoctrine
-    {
-        return $this->reports;
-    }
-
-    public function setReports(?ReportsDoctrine $reports): self
-    {
-        $this->reports = $reports;
         return $this;
     }
 }

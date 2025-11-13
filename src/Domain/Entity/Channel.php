@@ -10,6 +10,6 @@ class Channel
         public readonly string $description,
         public readonly string $thumbnail,
         public readonly bool $isPublic,
-        public readonly User $founder
+        public readonly ?User $founder
     ) {}
 }

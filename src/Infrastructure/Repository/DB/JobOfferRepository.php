@@ -121,4 +121,18 @@ class JobOfferRepository implements JobOfferRepositoryInterface
         
         return $offers;
     }
+
+    public function remove(int $id): bool
+    {
+        $jobOffer = $this->em->find(JobOfferDoctrine::class, $id);
+        if (is_null($jobOffer))
+        {
+            return false;
+        }
+
+        $this->em->remove($jobOffer);
+        $this->em->flush();
+
+        return true;
+    }
 }

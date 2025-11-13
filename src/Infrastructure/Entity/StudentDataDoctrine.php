@@ -16,7 +16,7 @@ class StudentDataDoctrine
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private UserDoctrine $user;
 
-    #[ORM\ManyToOne(targetEntity: MasterPromDoctrine::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: MasterPromDoctrine::class)]
     private MasterPromDoctrine $prom;
 
     #[ORM\Column(type: 'date')]

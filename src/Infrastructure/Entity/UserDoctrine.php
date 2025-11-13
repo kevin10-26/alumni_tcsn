@@ -46,10 +46,6 @@ class UserDoctrine
     #[ORM\ManyToMany(targetEntity: JobOfferDoctrine::class, inversedBy: 'savedBy')]
     private ?Collection $savedOffers;
 
-    #[ORM\ManyToOne(targetEntity: ReportsDoctrine::class, inversedBy: 'user')]
-    #[ORM\JoinColumn(name: 'reports_id', referencedColumnName: 'id', nullable: true)]
-    private ?ReportsDoctrine $reports = null;
-
     public function __construct()
     {
         $this->studentData = new ArrayCollection();
@@ -178,17 +174,6 @@ class UserDoctrine
     public function setAnonymousStatus(bool $status): self
     {
         $this->isAnonymous = $status;
-        return $this;
-    }
-
-    public function getReports(): ?ReportsDoctrine
-    {
-        return $this->reports;
-    }
-
-    public function setReports(?ReportsDoctrine $reports): self
-    {
-        $this->reports = $reports;
         return $this;
     }
 

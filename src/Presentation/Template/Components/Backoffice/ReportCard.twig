@@ -1,0 +1,40 @@
+<div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-all duration-200 border border-gray-200" onclick="showReportDetails(event, '{{ report.id }}');">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800">{{ report.topic }}</h2>
+        <p class="text-sm text-gray-500">Signalement lié à : 
+          <span class="font-medium text-gray-700">{{ report.type }}</span>
+        </p>
+      </div>
+  
+      <span class="
+        inline-block mt-2 sm:mt-0 px-3 py-1 text-sm font-medium rounded-full
+        {{ report.status == 'resolved' 
+          ? 'bg-green-100 text-green-800' 
+          : 'bg-yellow-100 text-yellow-800' }}
+      ">
+        {{ report.status == 'resolved' ? 'Résolu' : 'Non résolu' }}
+      </span>
+    </div>
+  
+    <p class="text-gray-700 leading-relaxed mb-4">
+      {{ report.description }}
+    </p>
+  
+    <div class="mt-4 border-t border-gray-200 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600">
+        <span class="font-medium">Pièces jointes :</span>
+        {{ report.attachments|length > 0 
+          ? report.attachments|length ~ ' fichier(s)' 
+          : 'Aucune' }}
+    </div>
+  
+    <div class="mt-6 flex flex-col items-start sm:justify-between text-sm text-gray-500 border-t border-gray-100 pt-3">
+      <p>
+        Signalé par <span class="font-medium text-gray-700">{{ report.author.username ?? 'Ancien utilisateur' }}</span>
+      </p>
+      <p>
+        Créé le {{ report.createdAt|date('d/m/Y H:i') }}
+      </p>
+    </div>
+</div>
+  

@@ -2,45 +2,45 @@
 
 namespace Alumni\Infrastructure\Repository\DB\Mapper;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 use Alumni\Domain\Entity\Report;
 use Alumni\Infrastructure\Entity\ReportsDoctrine;
 
-/**
- * Mapper for converting between Report domain entities and ReportsDoctrine infrastructure entities.
- * 
- * This mapper handles the bidirectional conversion between the domain layer (Report)
- * and the infrastructure layer (ReportsDoctrine), including nested entities like
- * User and AttachmentReport. It uses a two-step process to avoid circular dependencies
- * when mapping attachments.
- */
+use Alumni\Infrastructure\Entity\UserDoctrine;
+use Alumni\Infrastructure\Entity\ChannelDoctrine;
+use Alumni\Infrastructure\Entity\ChannelPostDoctrine;
+use Alumni\Infrastructure\Entity\AnnounceDoctrine;
+use Alumni\Infrastructure\Entity\JobOfferDoctrine;
+
 class ReportsMapper
 {
-    /**
-     * Creates a new instance of ReportsMapper.
-     * 
-     * @param UserMapper $userMapper Mapper for converting User entities
-     * @param AttachmentsReportMapper $attachmentsReportMapper Mapper for converting AttachmentReport entities
-     */
-    public function __construct(
-        private readonly UserMapper $userMapper,
-        private readonly AttachmentsReportMapper $attachmentsReportMapper
-    ) {}
+    private array $mappers = [];
 
-    /**
-     * Converts a ReportsDoctrine entity to a Report domain entity.
-     * 
-     * This method uses a two-step process to avoid circular dependencies:
-     * 1. First creates the Report without attachments
-     * 2. Then maps the attachments using the already-created Report reference
-     * 
-     * The final Report is reconstructed with all attachments included.
-     * 
-     * @param ReportsDoctrine $reportsDoctrine The Doctrine entity to convert
-     * @return Report The converted domain entity with all attachments
-     */
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserMapper $userMapper,
+        private readonly AttachmentsReportMapper $attachmentsReportMapper,
+        ChannelPostMapper $channelPostMapper,
+        ChannelMapper $channelMapper,
+        AnnounceMapper $announceMapper,
+        JobOfferMapper $jobOfferMapper
+    ) {
+        $this->mappers = [
+            'post' => $channelPostMapper,
+            'channel' => $channelMapper,
+            'announce' => $announceMapper,
+            'jobOffer' => $jobOfferMapper,
+            'user' => $userMapper,
+        ];
+    }
+
     public function toDomain(ReportsDoctrine $reportsDoctrine): Report
     {
-        // First create the report domain object without attachments to avoid circular dependency
+        // Résolution de la cible
+        $target = $this->resolveTarget($reportsDoctrine);
+
+        // Création du Report sans attachments (pour éviter la dépendance circulaire)
         $report = new Report(
             id: $reportsDoctrine->getId(),
             type: $reportsDoctrine->getType(),
@@ -49,19 +49,18 @@ class ReportsMapper
             createdAt: $reportsDoctrine->getCreatedAt(),
             updatedAt: $reportsDoctrine->getUpdatedAt(),
             status: $reportsDoctrine->getStatus(),
-            user: $this->userMapper->toDomain($reportsDoctrine->getAuthor()),
+            author: $this->userMapper->toDomain($reportsDoctrine->getAuthor()),
+            target: $target,
             attachments: []
         );
 
-        // Now map attachments, passing the already-converted report
+        // ✅ Mapping des attachments en passant le $report
         $attachments = [];
-        if ($reportsDoctrine->getAttachments() !== null) {
-            foreach ($reportsDoctrine->getAttachments() as $attachment) {
-                $attachments[] = $this->attachmentsReportMapper->toDomain($attachment, $report);
-            }
+        foreach ($reportsDoctrine->getAttachments() as $attachmentDoctrine) {
+            $attachments[] = $this->attachmentsReportMapper->toDomain($attachmentDoctrine, $report);
         }
-
-        // Return a new Report with attachments
+        
+        // Reconstruction du Report avec les attachments
         return new Report(
             id: $report->id,
             type: $report->type,
@@ -70,25 +69,12 @@ class ReportsMapper
             createdAt: $report->createdAt,
             updatedAt: $report->updatedAt,
             status: $report->status,
-            user: $report->user,
+            author: $report->author,
+            target: $report->target,
             attachments: $attachments
         );
     }
 
-    /**
-     * Converts a Report domain entity to a ReportsDoctrine entity.
-     * 
-     * This method creates a new Doctrine entity and maps all properties from the
-     * domain entity, including the nested User entity and all AttachmentReport
-     * entities. The attachments are added to the Doctrine entity using the
-     * addAttachment() method to maintain bidirectional relationships.
-     * 
-     * Note: The ID is not set as it will be generated by Doctrine when persisting
-     * new entities, or should be set from the domain entity's ID for existing entities.
-     * 
-     * @param Report $report The domain entity to convert
-     * @return ReportsDoctrine The converted Doctrine entity with all attachments
-     */
     public function toDoctrine(Report $report): ReportsDoctrine
     {
         $reportsDoctrine = new ReportsDoctrine();
@@ -98,13 +84,65 @@ class ReportsMapper
         $reportsDoctrine->setCreatedAt($report->createdAt);
         $reportsDoctrine->setUpdatedAt($report->updatedAt);
         $reportsDoctrine->setStatus($report->status);
-        $reportsDoctrine->setAuthor($this->userMapper->toDoctrine($report->user));
+        $reportsDoctrine->setAuthor($this->userMapper->toDoctrine($report->author));
+        $reportsDoctrine->setTargetId($this->extractTargetId($report->target));
 
-        // Map all attachments and add them to the Doctrine entity
+        // Mapping des attachments
         foreach ($report->attachments as $attachment) {
-            $reportsDoctrine->addAttachment($this->attachmentsReportMapper->toDoctrine($attachment, $reportsDoctrine));
+            $reportsDoctrine->addAttachment(
+                $this->attachmentsReportMapper->toDoctrine($attachment, $reportsDoctrine)
+            );
         }
-        
+
         return $reportsDoctrine;
+    }
+
+    private function resolveTarget(ReportsDoctrine $reportsDoctrine): ?object
+    {
+        $targetType = $reportsDoctrine->getType();
+        $targetId = $reportsDoctrine->getTargetId();
+
+        if (!isset($this->mappers[$targetType])) {
+            throw new \InvalidArgumentException("Unknown target type: $targetType");
+        }
+
+        $mapper = $this->mappers[$targetType];
+        $targetDoctrine = $this->loadTargetEntity($targetType, $targetId);
+
+        if ($targetDoctrine === null) {
+            return null;
+        }
+
+        return $mapper->toDomain($targetDoctrine);
+    }
+
+    private function loadTargetEntity(string $targetType, int $targetId): ?object
+    {
+        $entityClassMap = [
+            'post' => \Alumni\Infrastructure\Entity\ChannelPostDoctrine::class,
+            'channel' => \Alumni\Infrastructure\Entity\ChannelDoctrine::class,
+            'announce' => \Alumni\Infrastructure\Entity\AnnounceDoctrine::class,
+            'jobOffer' => \Alumni\Infrastructure\Entity\JobOfferDoctrine::class,
+            'user' => \Alumni\Infrastructure\Entity\UserDoctrine::class,
+        ];
+
+        if (!isset($entityClassMap[$targetType])) {
+            return null;
+        }
+
+        return $this->entityManager->getRepository($entityClassMap[$targetType])->find($targetId);
+    }
+
+    private function extractTargetId(object $target): int
+    {
+        if (method_exists($target, 'getId')) {
+            return $target->getId();
+        }
+
+        if (property_exists($target, 'id')) {
+            return $target->id;
+        }
+
+        throw new \InvalidArgumentException('Target entity must have an ID');
     }
 }

@@ -59,4 +59,18 @@ class AnnouncesRepository implements AnnouncesRepositoryInterface
 
         return $this->announceMapper->toDomain($announceDoctrine);
     }
+
+    public function remove(int $id): bool
+    {
+        $announce = $this->em->find(AnnounceDoctrine::class, $id);
+        if (is_null($announce))
+        {
+            return false;
+        }
+
+        $this->em->remove($announce);
+        $this->em->flush();
+
+        return true;
+    }
 }

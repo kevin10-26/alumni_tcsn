@@ -62,18 +62,21 @@ class UserController
         ], $response->status);
     }
 
-    public function authenticate(ServerRequestInterface $request): JsonResponse
+    public function authenticate(ServerRequestInterface $request): void
     {
-        $raw = (string) $request->getBody();
-        $requestBody = json_decode($raw, true) ?? [];
+        $requestBody = $request->getParsedBody();
 
-        $request = new AuthenticateUserRequest($requestBody['username'], $requestBody['password']);
+        $request = new AuthenticateUserRequest($requestBody['email'], $requestBody['password']);
         $response = $this->authenticateUser->execute($request);
 
-        return new JsonResponse([
-            'status' => $response->status,
-            'msg' => $response->msg
-        ], $response->status);
+        if ($response->token)
+        {
+            header('Location:' . $_ENV['APP_URL'] . 'index');
+            exit;
+        } else {
+            header('Location:' . $_ENV['APP_URL'] . 'login#bad-credentials');
+            exit;
+        }
     }
 
     public function dashboard(ServerRequestInterface $request): HtmlResponse

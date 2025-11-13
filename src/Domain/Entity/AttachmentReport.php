@@ -23,10 +23,8 @@ class AttachmentReport
     public function __construct(
         public int $id,
         public string $filename,
-        public string $originalName,
         public string $mimeType,
         public int $fileSize,
-        public string $filePath,
         public \DateTime $uploadedAt,
         public Report $report
     ) {}

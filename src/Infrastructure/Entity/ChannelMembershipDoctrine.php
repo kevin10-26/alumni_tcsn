@@ -13,8 +13,8 @@ class ChannelMembershipDoctrine
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: UserDoctrine::class)]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private UserDoctrine $user;
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?UserDoctrine $user = null;
 
     #[ORM\ManyToOne(targetEntity: ChannelDoctrine::class, inversedBy: 'members')]
     #[ORM\JoinColumn(name: "channel_id", referencedColumnName: "id")]

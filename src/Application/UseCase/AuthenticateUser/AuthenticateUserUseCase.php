@@ -15,11 +15,11 @@ class AuthenticateUserUseCase
 
     public function execute(AuthenticateUserRequest $request): AuthenticateUserResponse
     {
-        $login = $this->userRepository->authenticate($request->username, $request->password);
+        $login = $this->userRepository->authenticate($request->emailAddress, $request->password);
 
         if ($login)
         {
-            $token = $this->authService->generateAuthToken($login->id);
+            $token = $this->authService->getDecodedToken($this->authService->generateAuthToken($login->id));
         }
 
         return new AuthenticateUserResponse(

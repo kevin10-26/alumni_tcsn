@@ -7,6 +7,7 @@ use Alumni\Domain\Entity\Report;
 interface ReportsRepositoryInterface
 {
     public function getAll(): array;
+    public function getMultipleBy(array $condition): array;
     public function getBy(array $condition): Report;
     
     public function create(
@@ -19,6 +20,5 @@ interface ReportsRepositoryInterface
         ?array $attachments
     ): bool;
 
-    public function resolve(Report $report): void;
-    public function delete(Report $report): void;
+    public function resolve(int $reportId, string $decision, string $reason): bool;
 }

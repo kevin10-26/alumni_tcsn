@@ -12,13 +12,26 @@ use Alumni\Presentation\Controller\AnnouncesController;
 use Alumni\Presentation\Controller\JobsController;
 use Alumni\Presentation\Controller\ReportsController;
 use Alumni\Presentation\Controller\LegalController;
+use Alumni\Presentation\Controller\BackofficeController;
 
 return [
     ['method' => 'GET', 'path' => '/', 'handler' => [HomeController::class, 'index']],
+    
+    ['method' => 'GET', 'path' => '/index', 'handler' => [HomeController::class, 'index']],
+    
+    ['method' => 'GET', 'path' => '/backoffice', 'handler' => [BackofficeController::class, 'show']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/refresh', 'handler' => [BackofficeController::class, 'refresh']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/report/show', 'handler' => [BackofficeController::class, 'getReportModal']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/report/deleteContent', 'handler' => [BackofficeController::class, 'deleteReportedContent']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/report/disclaimReport', 'handler' => [BackofficeController::class, 'disclaimReportedContent']],
 
     ['method' => 'GET', 'path' => '/login', 'handler' => [UserController::class, 'login']],
 
-    ['method' => 'GET', 'path' => '/auth/login', 'handler' => [UserController::class, 'authenticate']],
+    ['method' => 'POST', 'path' => '/auth/login', 'handler' => [UserController::class, 'authenticate']],
 
     ['method' => 'POST', 'path' => '/auth/register', 'handler' => [UserController::class, 'identify']],
 

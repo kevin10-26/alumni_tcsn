@@ -17,8 +17,12 @@ class UserMapper
         private readonly UsersDeactivatedMapper $deactivationsMapper
     ) {}
 
-    public function toDomain(UserDoctrine $userDoctrine): User
+    public function toDomain(?UserDoctrine $userDoctrine): ?User
     {
+        // In case it's called by other mappers with a null user (the user could have been deleted before, and set to null)
+        // I.e., a user who published a post, deleted its account. ChannelPostDoctrine has 'null' for author, no longer the user.
+        if (is_null($userDoctrine)) return null;
+
         return new User(
             id: $userDoctrine->getId(),
             username: $userDoctrine->getName(),

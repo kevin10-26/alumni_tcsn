@@ -24,8 +24,8 @@ class ChannelPostDoctrine
     private string $content;
 
     #[ORM\ManyToOne(targetEntity: UserDoctrine::class)]
-    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
-    private UserDoctrine $author;
+    #[ORM\JoinColumn(name: 'channel_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?UserDoctrine $author = null;
 
     #[ORM\ManyToOne(targetEntity: ChannelDoctrine::class, inversedBy: 'posts')]
     #[ORM\JoinColumn(name: 'channel_id', referencedColumnName: 'id')]
@@ -34,10 +34,6 @@ class ChannelPostDoctrine
     #[ORM\OneToOne(targetEntity: SurveyDoctrine::class)]
     #[ORM\JoinColumn(name: 'survey_id', referencedColumnName: 'id')]
     private ?SurveyDoctrine $survey = null;
-
-    #[ORM\ManyToOne(targetEntity: ReportsDoctrine::class, inversedBy: 'channelPost')]
-    #[ORM\JoinColumn(name: 'reports_id', referencedColumnName: 'id', nullable: true)]
-    private ?ReportsDoctrine $reports = null;
 
     #[ORM\OneToMany(targetEntity: AttachmentDoctrine::class, mappedBy: 'post', cascade: ['remove', 'persist'])]
     private Collection $attachments;
@@ -69,12 +65,12 @@ class ChannelPostDoctrine
         return $this;
     }
 
-    public function getAuthor(): UserDoctrine
+    public function getAuthor(): ?UserDoctrine
     {
         return $this->author;
     }
 
-    public function setAuthor(UserDoctrine $author): self
+    public function setAuthor(?UserDoctrine $author): self
     {
         $this->author = $author;
         return $this;
@@ -140,17 +136,6 @@ class ChannelPostDoctrine
     public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getReports(): ?ReportsDoctrine
-    {
-        return $this->reports;
-    }
-
-    public function setReports(?ReportsDoctrine $reports): self
-    {
-        $this->reports = $reports;
         return $this;
     }
 

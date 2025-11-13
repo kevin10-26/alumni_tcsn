@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backoffice - Administration</title>
+  <link rel="stylesheet" href="./css/output.css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+  <aside id="sidebar"
+    class="fixed md:static top-0 left-0 h-screen w-64 bg-gray-900 text-gray-100 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
+    
+    <div class="px-6 py-4 text-2xl font-semibold border-b border-gray-700 flex items-center justify-between">
+      <span><span class="text-blue-400">Admin</span> Panel</span>
+      <button id="closeSidebar" class="md:hidden text-gray-400 hover:text-white">
+        ✕
+      </button>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 space-y-2">
+      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('reports');">Gestion des signalements</a>
+      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('users');">Gestion des utilisateurs</a>
+      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('announces');">Gestion des annonces</a>
+      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('channels');">Gestion des channels</a>
+      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('jobOffers');">Gestion des offres d'emplois</a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-700 text-sm text-gray-400 text-center">
+      © 2025 Alumni Backoffice
+    </div>
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden md:hidden z-40"></div>
+
+  <main class="flex-1 p-6 md:p-8 overflow-y-auto w-full md:ml-0">
+
+    <header class="md:hidden flex justify-between items-center mb-6">
+      <button id="openSidebar" class="text-gray-700 text-2xl">☰</button>
+      <h1 class="text-xl font-bold text-gray-800">Backoffice</h1>
+      <div class="w-8"></div>
+    </header>
+
+    <h1 class="hidden md:block text-3xl font-bold text-gray-800 mb-6">Vue d'ensemble</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-2xl shadow">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Utilisateurs</h2>
+        <p class="text-4xl font-bold text-blue-600">{{ users|length }}</p>
+        <p class="text-sm text-gray-500 mt-1">Inscrits</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Signalements</h2>
+        <p class="text-4xl font-bold text-red-600">{{ reports|length }}</p>
+        <p class="text-sm text-gray-500 mt-1">En attente de traitement</p>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Offres d'emploi</h2>
+        <p class="text-4xl font-bold text-green-600">{{ jobOffers|length }}</p>
+        <p class="text-sm text-gray-500 mt-1">Publiées</p>
+      </div>
+    </div>
+
+    <section id="admin-content" class="bg-white rounded-2xl shadow p-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Détails</h2>
+      <p id="tab-display-info" class="text-gray-600">Sélectionne une section dans le menu pour afficher son contenu ici.</p>
+
+      <div id="reports" class="backoffice-tabcontent hidden">
+        <h3>Gestion des signalements</h3>
+
+        <div id="report-container">
+          {% include './Components/Backoffice/ReportsList.twig' with {content: reports} %}
+        </div>
+      </div>
+    </section>
+
+    <div id="modal-placeholder" class="absolute top-0"></div>
+  </main>
+
+  <script src="./js/Frontend.js"></script>
+  <script src="./js/AuthManager.js"></script>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openSidebar = document.getElementById('openSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    // Open sidebar on mobile device
+    openSidebar?.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+    });
+
+    // Closes sidebar ""
+    const close = () => {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    };
+
+    closeSidebar?.addEventListener('click', close);
+    overlay?.addEventListener('click', close);
+
+    const frontend = new Frontend();
+
+    const switchTabs = async (tabName) => {
+        frontend.openTab('backoffice-tablink', 'backoffice-tabcontent', tabName);
+        document.getElementById('tab-display-info').style.display = 'none';
+    }
+
+    const showReportDetails = async (e, reportId) => {
+        let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/report/show', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reportId: reportId
+            })
+        });
+
+        let response = await xhr.text();
+        frontend.fill('modal-placeholder', response);
+
+        frontend.openModal('report-modal');
+    }
+
+    const deleteReportedContent = async (reportId, reportType) => {
+    let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/report/deleteContent', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reportId: reportId,
+                reportType: reportType,
+                reportReason: document.getElementById('report-reason').value
+            })
+        });
+
+        let response = await xhr.json();
+        // snackbar
+        refresh('report-container', 'reports');
+        document.getElementById('close-report-modal').click();
+    }
+
+    const disclaimReportedContent = async (reportId, reportType) => {
+    let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/report/disclaimReport', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reportId: reportId,
+                reportType: reportType,
+                reportReason: document.getElementById('report-reason').value
+            })
+        });
+
+        let response = await xhr.json();
+        // snackbar
+        refresh('report-container', 'reports');
+        document.getElementById('close-report-modal').click();
+    }
+
+    const refresh = async (container, contentType) => {
+      let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/refresh', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contentType: contentType
+            })
+        });
+
+        let response = await xhr.text();
+        frontend.fill(container, response);
+    }
+  </script>
+
+</body>
+</html>

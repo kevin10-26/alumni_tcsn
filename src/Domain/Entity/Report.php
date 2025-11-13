@@ -15,24 +15,26 @@ class Report
 {
     /**
      * @param int $id Unique identifier for the report
-     * @param string $type The type of report (e.g., 'channel', 'post', 'user', 'job_offer')
+     * @param string $type The type of target being reported (e.g., 'channel', 'post', 'user', 'jobOffer', 'announce')
      * @param string $topic The subject or title of the report
      * @param string $description Detailed description of the issue being reported
      * @param \DateTime $createdAt The date and time when the report was created
      * @param \DateTime $updatedAt The date and time when the report was last updated
-     * @param string $status The current status of the report (e.g., 'unresolved', 'resolved')
-     * @param User $user The user who created the report
-     * @param array<AttachmentReport> $attachments Array of file attachments associated with this report
+     * @param string $status The current status of the report (e.g., 'pending', 'under_review', 'resolved', 'rejected')
+     * @param User $author The user who created/submitted the report
+     * @param object|null $target The entity being reported (Channel, Post, User, JobOffer, or Announce). Can be null if the target was deleted.
+     * @param array<AttachmentReport> $attachments Array of file attachments providing evidence for this report
      */
     public function __construct(
-        public int $id,
-        public string $type,
-        public string $topic,
-        public string $description,
-        public \DateTime $createdAt,
-        public \DateTime $updatedAt,
-        public string $status,
-        public User $user,
-        public array $attachments = []
+        public readonly int $id,
+        public readonly string $type,
+        public readonly string $topic,
+        public readonly string $description,
+        public readonly \DateTime $createdAt,
+        public readonly \DateTime $updatedAt,
+        public readonly string $status,
+        public readonly ?User $author,
+        public readonly ?object $target,
+        public readonly array $attachments = []
     ) {}
 }

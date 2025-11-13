@@ -59,9 +59,10 @@ class UserRepository implements UserRepositoryInterface
      * @param array<string, mixed> $conditions Associative array of field => value pairs to search for
      * @return User The found user as a domain entity
      */
-    public function getBy(array $conditions): User
+    public function getBy(array $conditions): ?User
     {
         $adminDoctrine = $this->em->getRepository(UserDoctrine::class)->findOneBy($conditions);
+        if(is_null($adminDoctrine)) return null;
 
         return $this->mapper->toDomain($adminDoctrine);
     }
@@ -109,12 +110,12 @@ class UserRepository implements UserRepositoryInterface
         return true;
     }
 
-    public function authenticate(string $username, string $password): ?User
+    public function authenticate(string $emailAddress, string $password): ?User
     {
-        $user = $this->em->getRepository(UserDoctrine::class)->findOneBy(['username' => $username]);
-        if (is_null($user)) return false;
+        $user = $this->em->getRepository(UserDoctrine::class)->findOneBy(['email' => $emailAddress]);
+        if (is_null($user)) return null;
 
-        if (password_verify($password, $user->password)) return true;
+        return (password_verify($password, $user->getPasswordHash())) ? $this->mapper->toDomain($user) : null;
     }
 
     public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool
@@ -152,6 +153,20 @@ class UserRepository implements UserRepositoryInterface
         }
 
         $this->em->remove($lastDeactivation);
+        $this->em->flush();
+
+        return true;
+    }
+
+    public function remove(int $userId): bool
+    {
+        $user = $this->em->find(UserDoctrine::class, $userId);
+        if (is_null($user))
+        {
+            return false;
+        }
+
+        $this->em->remove($user);
         $this->em->flush();
 
         return true;

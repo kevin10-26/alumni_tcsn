@@ -67,6 +67,19 @@ class ReportsRepository implements ReportsRepositoryInterface
         return $reports;
     }
 
+    public function getMultipleBy(array $condition): array
+    {
+        $reportsDoctrine = $this->em->getRepository(ReportsDoctrine::class)->findBy($condition);
+        $reports = [];
+
+        foreach($reportsDoctrine as $report)
+        {
+            $reports[] = $this->reportsMapper->toDomain($report);
+        }
+
+        return $reports;
+    }
+
     /**
      * Retrieves a single report by the given conditions.
      * 
@@ -153,32 +166,21 @@ class ReportsRepository implements ReportsRepositoryInterface
      * @return void
      * @throws \RuntimeException If the report is not found in the database
      */
-    public function resolve(Report $report): void
+    public function resolve(int $reportId, string $decision, string $reason): bool
     {
-        $reportDoctrine = $this->em->getRepository(ReportsDoctrine::class)->find($report->id);
+        $reportDoctrine = $this->em->getRepository(ReportsDoctrine::class)->find($reportId);
         if ($reportDoctrine === null) {
             throw new \RuntimeException('Report not found');
         }
         
         $reportDoctrine->setStatus('resolved');
+        $reportDoctrine->setDecision($decision);
+        $reportDoctrine->setReason($reason);
         $reportDoctrine->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
         $this->em->persist($reportDoctrine);
         $this->em->flush();
-    }
 
-    /**
-     * Deletes a report from the database.
-     * 
-     * Note: Due to CASCADE DELETE configuration, all associated attachments
-     * will be automatically deleted when the report is removed.
-     * 
-     * @param Report $report The report to delete
-     * @return void
-     */
-    public function delete(Report $report): void
-    {
-        $this->em->remove($this->reportsMapper->toDoctrine($report));
-        $this->em->flush();
+        return true;
     }
 
     /**
@@ -232,6 +234,10 @@ class ReportsRepository implements ReportsRepositoryInterface
 
             case $entity instanceof JobOffer:
                 $report->addJobOffer($this->em->getReference(JobOfferDoctrine::class, $entity->id));
+                break;
+
+            case $entity instanceof Announce:
+                $report->addAnnounce($this->em->getReference(JobOfferDoctrine::class, $entity->id));
                 break;
         }
     }

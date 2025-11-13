@@ -33,8 +33,8 @@ class AttachmentsReportDoctrine
     private \DateTime $uploadedAt;
 
     #[ORM\ManyToOne(targetEntity: ReportsDoctrine::class, inversedBy: 'attachments')]
-    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-    private ?ReportsDoctrine $report_id = null;
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'id', nullable: false)]
+    private ReportsDoctrine $report;
 
     /**
      * Gets the unique identifier of the attachment.
