@@ -3,6 +3,7 @@
 namespace Alumni\Domain\Repository\DB;
 
 use Alumni\Domain\Entity\User;
+use Alumni\Domain\Entity\UserRegistrationPool;
 
 interface UserRepositoryInterface
 {
@@ -13,4 +14,5 @@ interface UserRepositoryInterface
     public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool;
     public function reactivate(int $userId): bool;
     public function remove(int $userId): bool;
+    public function registerNewUser(UserRegistrationPool $poolUser): bool;
 }

@@ -11,7 +11,7 @@ class User
         public readonly string $username,
         public readonly string $passwordHash,
         public readonly EmailAddress $emailAddress,
-        public readonly string $status,
+        public readonly \DateTime $registeredAt,
         public readonly bool $isAnonymous,
         public readonly ?UserData $userData = null,
         public ?array $studentData = null,

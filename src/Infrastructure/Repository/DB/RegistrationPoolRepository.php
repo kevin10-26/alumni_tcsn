@@ -9,11 +9,13 @@ use Alumni\Infrastructure\Entity\UsersRegistrationPoolDoctrine;
 use Alumni\Domain\Entity\UserRegistrationPool;
 
 use Alumni\Domain\Repository\DB\RegistrationPoolRepositoryInterface;
+use Alumni\Domain\Repository\DB\UserRepositoryInterface;
 
 class RegistrationPoolRepository implements RegistrationPoolRepositoryInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly RegistrationPoolMapper $registrationPoolMapper
     ) {}
 
@@ -51,5 +53,30 @@ class RegistrationPoolRepository implements RegistrationPoolRepositoryInterface
         $this->em->flush();
 
         return true;
+    }
+
+    public function moveUser(int $id, int $promId): ?bool
+    {
+        $pool = $this->getBy(['id' => $id]);
+        if (is_null($pool)) return null;
+
+        if ($this->userRepository->registerNewUser($pool))
+        {
+            $this->deleteUser($id);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function deleteUser(int $id): bool
+    {
+        $pool = $this->em->find(UsersRegistrationPoolDoctrine::class, $id);
+        if (is_null($pool)) return null;
+        
+        $this->em->remove($pool);
+        $this->em->flush();
+
+        return false;
     }
 }

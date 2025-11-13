@@ -208,7 +208,7 @@ class ReportsRepository implements ReportsRepositoryInterface
         $attachment->setMimeType($fileData->getClientMediaType() ?? 'application/octet-stream');
         $attachment->setFileSize($fileData->getSize() ?? 0);
         $attachment->setUploadedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
-        $attachment->setReportId($report);
+        $attachment->setReport($report);
         
         return $attachment;
     }
@@ -221,23 +221,23 @@ class ReportsRepository implements ReportsRepositoryInterface
         switch ($entity)
         {
             case $entity instanceof Channel:
-                $report->addChannel($this->em->getReference(ChannelDoctrine::class, $entity->id));
+                $report->setTargetId($entity->id);
                 break;
             
             case $entity instanceof ChannelPost:
-                $report->addChannelPost($this->em->getReference(ChannelPostDoctrine::class, $entity->id));
+                $report->setTargetId($entity->id);
                 break;
 
             case $entity instanceof User:
-                $report->addUser($this->em->getReference(UserDoctrine::class, $entity->id));
+                $report->setTargetId($entity->id);
                 break;
 
             case $entity instanceof JobOffer:
-                $report->addJobOffer($this->em->getReference(JobOfferDoctrine::class, $entity->id));
+                $report->setTargetId($entity->id);
                 break;
 
             case $entity instanceof Announce:
-                $report->addAnnounce($this->em->getReference(JobOfferDoctrine::class, $entity->id));
+                $report->setTargetId($entity->id);
                 break;
         }
     }

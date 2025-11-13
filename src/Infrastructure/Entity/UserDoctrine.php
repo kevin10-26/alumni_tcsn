@@ -24,11 +24,11 @@ class UserDoctrine
     #[ORM\Column(type: 'string', length: 255)]
     private string $passwordHash;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private string $status;
-
     #[ORM\Column(type: 'boolean')]
     private bool $isAnonymous;
+
+    #[ORM\Column(type: 'datetime')]
+    private \DateTime $registeredAt;
 
     #[ORM\OneToOne(targetEntity: UserDataDoctrine::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserDataDoctrine $userData = null;
@@ -91,14 +91,14 @@ class UserDoctrine
         return $this;
     }
 
-    public function getStatus(): string
+    public function getRegisteredAt(): \DateTime
     {
-        return $this->status;
+        return $this->registeredAt;
     }
 
-    public function setStatus(string $status): self
+    public function setRegisteredAt(\DateTime $registeredAt): self
     {
-        $this->status = $status;
+        $this->registeredAt = $registeredAt;
         return $this;
     }
 

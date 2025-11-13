@@ -28,7 +28,7 @@ class UserMapper
             username: $userDoctrine->getName(),
             passwordHash: $userDoctrine->getPasswordHash(),
             emailAddress: new EmailAddress($userDoctrine->getEmail()),
-            status: $userDoctrine->getStatus(),
+            registeredAt: $userDoctrine->getRegisteredAt(),
             userData: $userDoctrine->getUserData() ? $this->userDataMapper->toDomain($userDoctrine->getUserData()) : null,
             studentData: $userDoctrine->getStudentData() ? $this->studentDataMapper->mapStudentDataToArray($userDoctrine->getStudentData()) : null,
             userJobData: $userDoctrine->getUserJobData() ? $this->userJobDataMapper->toDomain($userDoctrine->getUserJobData()) : null,

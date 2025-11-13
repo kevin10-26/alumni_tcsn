@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Alumni\Domain\Repository\DB\UserRepositoryInterface;
 
 use Alumni\Domain\Entity\User;
+use Alumni\Domain\Entity\UserRegistrationPool;
 
 use Alumni\Infrastructure\Entity\UserDoctrine;
 use Alumni\Infrastructure\Entity\UsersDeactivatedDoctrine;
@@ -153,6 +154,21 @@ class UserRepository implements UserRepositoryInterface
         }
 
         $this->em->remove($lastDeactivation);
+        $this->em->flush();
+
+        return true;
+    }
+
+    public function registerNewUser(UserRegistrationPool $poolUser): bool
+    {
+        $user = new UserDoctrine();
+        $user->setName($poolUser->username);
+        $user->setEmail($poolUser->emailAddress->value());
+        $user->setPasswordHash($poolUser->password);
+        $user->setRegisteredAt(new \DateTime('now'));
+        $user->setAnonymousStatus(true);
+
+        $this->em->persist($user);
         $this->em->flush();
 
         return true;

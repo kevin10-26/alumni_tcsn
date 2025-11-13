@@ -1,0 +1,56 @@
+<div>
+
+    <div class="flex border-b">
+        <button id="tab-users" class="backoffice-user-tablink flex-1 py-3 text-center font-semibold text-blue-700 border-b-2 border-blue-700" onclick="switchUserTab('users-list');">
+            Utilisateurs réguliers
+        </button>
+        <button id="tab-pool" class="backoffice-user-tablink flex-1 py-3 text-center font-semibold text-gray-600 hover:text-blue-700" onclick="switchUserTab('pool-list');">
+            En attente d'approbation
+        </button>
+    </div>
+
+    <!-- Liste des utilisateurs réguliers -->
+    <div id="users-list" class="backoffice-user-tabcontent">
+        <div class="p-6 grid md:grid-cols-3 gap-6">
+        {% for user in content %}
+        
+        {% include './Components/Backoffice/UserCard.twig' with {user: user} %}
+    
+        {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Liste des utilisateurs en attente -->
+    <div id="pool-list" class="backoffice-user-tabcontent hidden p-6 grid md:grid-cols-2 gap-6">
+        {% for pending in registrationPool %}
+        <div class="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src="img/default-avatar.png" class="w-16 h-16 rounded-full border">
+            <div>
+              <h2 class="text-lg font-bold text-gray-800">{{ pending.username }}</h2>
+              <p class="text-sm text-gray-500">{{ pending.emailAddress.value }}</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mb-3">🕒 Ce compte est en attente d’approbation. L’utilisateur sera ajouté à une promotion dès validation.</p>
+          <div class="flex space-x-3">
+            <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow text-sm" onclick="moveUserFromPoolDecision(event, '{{ pending.id }}', 'approve');">
+              ✅ Approuver
+            </button>
+            <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow text-sm" onclick="moveUserFromPoolDecision(event, '{{ pending.id }}', 'refuse');">
+              ❌ Refuser
+            </button>
+            <br />
+            <select type="text" class="choose-promotion-input hidden px-4 py-2 border">
+                <option value="">Choisissez une promotion</option>
+                {% for prom in proms %}
+                <option value="{{ prom.id }}">{{ prom.year }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% else %}
+          <p class="col-span-2 text-center text-gray-500 italic">Aucun utilisateur en attente.</p>
+        {% endfor %}
+    </div>
+</div>

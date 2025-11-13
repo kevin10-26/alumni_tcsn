@@ -7,4 +7,5 @@ use Alumni\Domain\Entity\MasterProm;
 interface StudentRepositoryInterface
 {
     public function getStudentsForProm(int $promId): array;
+    public function getAllPromotions(): array;
 }

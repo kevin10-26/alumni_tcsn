@@ -7,6 +7,8 @@ class ShowBackofficeResponse
     public function __construct(
         public readonly int $status,
         public readonly array $users,
+        public readonly array $promotions,
+        public readonly array $registrationPool,
         public readonly array $reports,
         public readonly array $announces,
         public readonly array $channels,

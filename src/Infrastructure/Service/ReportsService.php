@@ -5,6 +5,8 @@ namespace Alumni\Infrastructure\Service;
 use Alumni\Domain\Repository\DB\ChannelRepositoryInterface;
 use Alumni\Domain\Repository\DB\ChannelPostRepositoryInterface;
 use Alumni\Domain\Repository\DB\UserRepositoryInterface;
+use Alumni\Domain\Repository\DB\AnnouncesRepositoryInterface;
+use Alumni\Domain\Repository\DB\JobOfferRepositoryInterface;
 
 use Alumni\Domain\Service\ReportsServiceInterface;
 
@@ -19,7 +21,9 @@ class ReportsService implements ReportsServiceInterface
     public function __construct(
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly ChannelPostRepositoryInterface $channelPostRepository,
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly AnnouncesRepositoryInterface $announceRepository,
+        private readonly JobOfferRepositoryInterface $jobOfferRepository,
     ) {}
     /**
      * Routing for reporting type
@@ -43,8 +47,16 @@ class ReportsService implements ReportsServiceInterface
                 return $this->channelPostRepository->getPostBy(['id' => $entityId]);
                 break;
             
-            case 'channelPost':
+            case 'user':
                 return $this->userRepository->getBy(['id' => $entityId]);
+                break;
+            
+            case 'announce':
+                return $this->announceRepository->getBy(['id' => $entityId]);
+                break;
+            
+            case 'jobOffer':
+                return $this->jobOfferRepository->getBy(['id' => $entityId]);
                 break;
 
             default:

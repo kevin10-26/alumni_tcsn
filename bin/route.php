@@ -28,6 +28,10 @@ return [
     ['method' => 'POST', 'path' => '/backoffice/report/deleteContent', 'handler' => [BackofficeController::class, 'deleteReportedContent']],
     
     ['method' => 'POST', 'path' => '/backoffice/report/disclaimReport', 'handler' => [BackofficeController::class, 'disclaimReportedContent']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/user/reportModal', 'handler' => [BackofficeController::class, 'showUserReportModal']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/registrationPool/moveUserDecision', 'handler' => [UserController::class, 'moveUserFromPool']],
 
     ['method' => 'GET', 'path' => '/login', 'handler' => [UserController::class, 'login']],
 

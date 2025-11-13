@@ -51,7 +51,7 @@
       </div>
       <div class="bg-white p-6 rounded-2xl shadow">
         <h2 class="text-lg font-semibold text-gray-700 mb-2">Signalements</h2>
-        <p class="text-4xl font-bold text-red-600">{{ reports|length }}</p>
+        <p class="text-4xl font-bold text-red-600">{{ reports|column('status')|filter(s => s == 'unresolved')|length }}</p>
         <p class="text-sm text-gray-500 mt-1">En attente de traitement</p>
       </div>
       <div class="bg-white p-6 rounded-2xl shadow">
@@ -66,10 +66,18 @@
       <p id="tab-display-info" class="text-gray-600">Sélectionne une section dans le menu pour afficher son contenu ici.</p>
 
       <div id="reports" class="backoffice-tabcontent hidden">
-        <h3>Gestion des signalements</h3>
+        <h3 class="text-xl mb-4 font-semibold">Gestion des signalements</h3>
 
         <div id="report-container">
           {% include './Components/Backoffice/ReportsList.twig' with {content: reports} %}
+        </div>
+      </div>
+
+      <div id="users" class="backoffice-tabcontent hidden">
+        <h3 class="text-xl mb-4 font-semibold">Gestion des utilisateurs</h3>
+
+        <div id="user-container">
+          {% include './Components/Backoffice/UsersList.twig' with {content: users, registrationPool: registrationPool} %}
         </div>
       </div>
     </section>
@@ -180,6 +188,67 @@
 
         let response = await xhr.text();
         frontend.fill(container, response);
+    }
+
+    const switchUserTab = (tabName) => {
+      frontend.openTab('backoffice-user-tablink', 'backoffice-user-tabcontent', tabName);
+    }
+
+    const openUserReportModal = async (userId) => {
+        let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/user/reportModal', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userId: userId
+            })
+        });
+
+        let response = await xhr.text();
+        frontend.fill('modal-placeholder', response);
+
+        frontend.openModal('create-report-user');
+    }
+
+    const moveUserFromPoolDecision = async (e, id, decision) => {
+        const submitDecision = async (id, decision, promId) => {
+            let authManager = new AuthManager();
+            let xhr = await authManager.makeAuthenticatedRequest('./backoffice/registrationPool/moveUserDecision', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    poolUserId: id,
+                    decision: decision,
+                    promId: promId
+                })
+            });
+
+            let response = await xhr.json();
+            if (response.status === 200)
+            {
+                document.getElementById('pool-user-' + id).remove();
+                // snackbar
+            }
+        }
+
+        if (decision === 'approve')
+        {
+            let chooseProm = document.getElementsByClassName('choose-promotion-input')[0];
+
+            chooseProm.style.display = 'block';
+            chooseProm.addEventListener('change', async () => {
+                if (confirm('Confirmez-vous votre choix ?'))
+                {
+                    await submitDecision(id, decision, chooseProm.value);
+                }
+            });
+        } else {
+            await submitDecision(id, decision);
+        }
     }
   </script>
 

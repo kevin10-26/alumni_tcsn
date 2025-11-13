@@ -18,6 +18,9 @@ use Alumni\Application\UseCase\AuthenticateUser\AuthenticateUserRequest;
 use Alumni\Application\UseCase\GetAdminDashboard\GetAdminDashboardUseCase;
 use Alumni\Application\UseCase\GetAdminDashboard\GetAdminDashboardRequest;
 
+use Alumni\Application\UseCase\UpdateRegistrationPool\UpdateRegistrationPoolUseCase;
+use Alumni\Application\UseCase\UpdateRegistrationPool\UpdateRegistrationPoolRequest;
+
 use Alumni\Application\UseCase\UpdateUserProfile\UpdateUserProfileUseCase;
 use Alumni\Application\UseCase\UpdateUserProfile\UpdateUserProfileRequest;
 
@@ -36,6 +39,7 @@ class UserController
         private readonly RegisterUserUseCase $registerUser,
         private readonly AuthenticateUserUseCase $authenticateUser,
         private readonly GetAdminDashboardUseCase $getAdminDashboard,
+        private readonly UpdateRegistrationPoolUseCase $updateRegistrationPool,
         private readonly UpdateUserProfileUseCase $updateUserProfile,
         private readonly UpdateUserAvatarUseCase $updateUserAvatar,
         private readonly DeactivateAccountUseCase $deactivateAccount,
@@ -77,6 +81,23 @@ class UserController
             header('Location:' . $_ENV['APP_URL'] . 'login#bad-credentials');
             exit;
         }
+    }
+
+    public function moveUserFromPool(ServerRequestInterface $request): JsonResponse
+    {
+        $user = $request->getAttribute('user')->token;
+
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true) ?? [];
+
+        $requestDTO = new UpdateRegistrationPoolRequest($user['userId'], intval($requestBody['poolUserId']), $requestBody['decision'], intval($requestBody['promId']) ?? null);
+        
+        $response = $this->updateRegistrationPool->execute($requestDTO);
+
+        return new JsonResponse([
+            'status' => $response->status,
+            'msg' => $response->msg
+        ], $response->status);
     }
 
     public function dashboard(ServerRequestInterface $request): HtmlResponse

@@ -44,6 +44,8 @@ class BackofficeController
 
         return new HtmlResponse($this->twig->render('TemporaryBackoffice.twig', [
             'users' => $response->users,
+            'proms' => $response->promotions,
+            'registrationPool' => $response->registrationPool,
             'reports' => $response->reports,
             'announces' => $response->reports,
             'channels' => $response->channels,
@@ -96,6 +98,18 @@ class BackofficeController
             'status' => $response->status,
             'msg' => $response->msg
         ], $response->status);
+    }
+
+    public function showUserReportModal(ServerRequestInterface $request): HtmlResponse
+    {
+        $user = $request->getAttribute('user')->token;
+
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true);
+
+        return new HtmlResponse($this->twig->render("./Components/Backoffice/UserReportModal.twig", [
+            'id' => $requestBody['userId']
+        ]), 200);
     }
 
     public function refresh(ServerRequestInterface $request): HtmlResponse

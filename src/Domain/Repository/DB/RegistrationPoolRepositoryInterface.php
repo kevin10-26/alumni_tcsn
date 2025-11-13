@@ -9,4 +9,6 @@ interface RegistrationPoolRepositoryInterface
     public function getAll(): array;
     public function getBy(array $condition): ?UserRegistrationPool;
     public function register(string $username, string $emailAddress, string $password): bool;
+    public function moveUser(int $id, int $promId): ?bool;
+    public function deleteUser(int $id): bool;
 }

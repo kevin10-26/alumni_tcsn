@@ -139,20 +139,20 @@ class AttachmentsReportDoctrine
      * 
      * @return ReportsDoctrine|null The parent report, or null if not set
      */
-    public function getReportId(): ?ReportsDoctrine
+    public function getReport(): ?ReportsDoctrine
     {
-        return $this->report_id;
+        return $this->report_;
     }
 
     /**
      * Sets the report this attachment belongs to.
      * 
-     * @param ReportsDoctrine|null $report_id The parent report to set, or null to unset
+     * @param ReportsDoctrine|null $report The parent report to set, or null to unset
      * @return self Returns $this for method chaining
      */
-    public function setReportId(?ReportsDoctrine $report_id): self
+    public function setReport(?ReportsDoctrine $report): self
     {
-        $this->report_id = $report_id;
+        $this->report = $report;
         return $this;
     }
 }

@@ -39,10 +39,10 @@ class ReportsDoctrine
     #[ORM\Column(type: 'bigint')]
     private int $targetId;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $reason;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $decision;
 
     #[ORM\OneToMany(
