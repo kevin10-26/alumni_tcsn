@@ -81,6 +81,12 @@ return [
 
     ['method' => 'GET', 'path' => '/announces/list', 'handler' => [AnnouncesController::class, 'list']],
 
+    ['method' => 'POST', 'path' => '/announces/create', 'handler' => [AnnouncesController::class, 'create']],
+
+    ['method' => 'POST', 'path' => '/announces/edit', 'handler' => [AnnouncesController::class, 'edit']],
+
+    ['method' => 'POST', 'path' => '/announces/remove', 'handler' => [AnnouncesController::class, 'remove']],
+
     ['method' => 'GET', 'path' => '/jobs/offers/list', 'handler' => [JobsController::class, 'list']],
 
     ['method' => 'POST', 'path' => '/report/create', 'handler' => [ReportsController::class, 'create']],

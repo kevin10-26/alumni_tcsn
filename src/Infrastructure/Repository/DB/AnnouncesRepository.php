@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Alumni\Infrastructure\Entity\AnnounceDoctrine;
 
 use Alumni\Infrastructure\Repository\DB\Mapper\AnnounceMapper;
+use Alumni\Infrastructure\Entity\UserDoctrine;
 
 use Alumni\Domain\Entity\Announce;
 use Alumni\Domain\Repository\DB\AnnouncesRepositoryInterface;
@@ -58,6 +59,34 @@ class AnnouncesRepository implements AnnouncesRepositoryInterface
         $announceDoctrine = $this->em->getRepository(AnnounceDoctrine::class)->findOneBy($condition);
 
         return $this->announceMapper->toDomain($announceDoctrine);
+    }
+
+    public function new(int $authorId, string $title, string $content): bool
+    {
+        $announce = new AnnounceDoctrine();
+        $announce->setTitle($title);
+        $announce->setContent($content);
+        $announce->setAuthor($this->em->getReference(UserDoctrine::class, $authorId));
+        $announce->setPublishedAt(new \DateTime('now'));
+    
+        $this->em->persist($announce);
+        $this->em->flush();
+
+        return true;
+    }
+
+    public function update(int $announceId, string $title, string $content): bool
+    {
+        $announce = $this->em->find(AnnounceDoctrine::class, $announceId);
+        if (is_null($announce)) return null;
+
+        $announce->setTitle($title);
+        $announce->setContent($content);
+        $announce->setUpdatedAt(new \DateTime('now'));
+    
+        $this->em->flush();
+
+        return true;
     }
 
     public function remove(int $id): bool

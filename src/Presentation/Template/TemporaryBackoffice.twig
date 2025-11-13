@@ -80,6 +80,14 @@
           {% include './Components/Backoffice/UsersList.twig' with {content: users, registrationPool: registrationPool} %}
         </div>
       </div>
+
+      <div id="announces" class="backoffice-tabcontent hidden">
+        <h3 class="text-xl mb-4 font-semibold">Gestion des annonces</h3>
+
+        <div id="user-container">
+          {% include './Components/Backoffice/Announces.twig' with {announcements: announces} %}
+        </div>
+      </div>
     </section>
 
     <div id="modal-placeholder" class="absolute top-0"></div>
@@ -249,6 +257,62 @@
         } else {
             await submitDecision(id, decision);
         }
+    }
+  </script>
+
+  <script>
+    const tabList = document.getElementById('tab-list');
+    const tabCreate = document.getElementById('tab-create');
+    const listDiv = document.getElementById('announcements-list');
+    const formDiv = document.getElementById('announcement-form');
+
+    const switchAnnounceTab = tabName => {
+      frontend.openTab('backoffice-announce-tablink', 'backoffice-announce-tabcontent', tabName);
+
+      if (tabName === 'announcement-form')  
+      {
+        document.getElementById('announcement-form').action = './announces/create';
+        document.getElementById('announcement-id').value = "";
+        document.getElementById('title').value = "";
+        document.getElementById('content').value = "";
+        document.getElementById('announce-disclaimer').style.display = 'none';
+      }
+    }
+
+    function editAnnouncement(id, title, content) {
+      switchAnnounceTab('announcement-form');
+      document.getElementById('announcement-id').value = id;
+      document.getElementById('title').value = title;
+      document.getElementById('content').value = content;
+      document.getElementById('announce-disclaimer').style.display = 'block';
+      document.getElementById('form-announcement').action = './announces/edit';
+    }
+
+    // Suppression
+    const deleteAnnouncement = async (id) => {
+      let authManager = new AuthManager();
+      let xhr = await authManager.makeAuthenticatedRequest('./announces/remove', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          announceId: id
+        })
+      });
+
+      let response = await xhr.json();
+      if (response.status === 200)
+      {
+        document.getElementById('announce-card-' + id).remove();
+      } else {
+        // snackbar
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('form-announcement').reset();
+      document.getElementById('announcement-id').value = '';
     }
   </script>
 

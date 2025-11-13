@@ -47,7 +47,7 @@ class BackofficeController
             'proms' => $response->promotions,
             'registrationPool' => $response->registrationPool,
             'reports' => $response->reports,
-            'announces' => $response->reports,
+            'announces' => $response->announces,
             'channels' => $response->channels,
             'jobOffers' => $response->jobOffers
         ]), $response->status);
