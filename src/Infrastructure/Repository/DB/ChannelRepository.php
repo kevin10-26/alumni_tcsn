@@ -5,6 +5,7 @@ namespace Alumni\Infrastructure\Repository\DB;
 use Alumni\Domain\Entity\Channel;
 use Alumni\Domain\Repository\DB\ChannelRepositoryInterface;
 use Alumni\Infrastructure\Entity\ChannelDoctrine;
+use Alumni\Infrastructure\Entity\UserDoctrine;
 use Alumni\Infrastructure\Repository\DB\Mapper\ChannelMapper;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -69,6 +70,25 @@ class ChannelRepository implements ChannelRepositoryInterface
             fn(ChannelDoctrine $channel) => $this->mapper->toDomain($channel),
             $channels
         );
+    }
+
+    public function create(
+        int $userId,
+        string $name,
+        string $description,
+        bool $isPublic
+    ): int
+    {
+        $channel = new ChannelDoctrine();
+        $channel->setName($name);
+        $channel->setDescription($description);
+        $channel->setIsPublic($isPublic);
+        $channel->setFounder($this->em->getReference(UserDoctrine::class, $userId));
+
+        $this->em->persist($channel);
+        $this->em->flush();
+
+        return $channel->getId();
     }
 
     /**

@@ -55,6 +55,10 @@ return [
 
     ['method' => 'GET', 'path' => '/channels/list', 'handler' => [ChannelController::class, 'list']],
 
+    ['method' => 'POST', 'path' => '/channels/create', 'handler' => [ChannelController::class, 'create']],
+    
+    ['method' => 'POST', 'path' => '/backoffice/channel/reportModal', 'handler' => [ChannelController::class, 'showChannelReportModal']],
+
     ['method' => 'POST', 'path' => '/channels/actions/join', 'handler' => [ChannelController::class, 'join']],
 
     ['method' => 'POST', 'path' => '/channels/update', 'handler' => [ChannelController::class, 'updateChannelData']],

@@ -88,6 +88,12 @@
           {% include './Components/Backoffice/Announces.twig' with {announcements: announces} %}
         </div>
       </div>
+
+      <div id="channels" class="backoffice-tabcontent hidden">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestion des Channels</h2>
+
+        {% include './Components/Backoffice/ChannelsList.twig' with {channels: channels} %}
+      </div>
     </section>
 
     <div id="modal-placeholder" class="absolute top-0"></div>
@@ -313,6 +319,27 @@
     function resetForm() {
       document.getElementById('form-announcement').reset();
       document.getElementById('announcement-id').value = '';
+    }
+  </script>
+
+  <script>
+
+    const openChannelReportModal = async (channelId) => {
+        let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/channel/reportModal', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                channelId: channelId
+            })
+        });
+
+        let response = await xhr.text();
+        frontend.fill('modal-placeholder', response);
+
+        frontend.openModal('create-report-channel');
     }
   </script>
 

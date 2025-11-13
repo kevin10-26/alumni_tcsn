@@ -6,11 +6,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 
 use Twig\Environment;
 
 use Alumni\Application\UseCase\ListAllChannels\ListAllChannelsUseCase;
 use Alumni\Application\UseCase\ListAllChannels\ListAllChannelsRequest;
+
+use Alumni\Application\UseCase\CreateChannel\CreateChannelUseCase;
+use Alumni\Application\UseCase\CreateChannel\CreateChannelRequest;
 
 use Alumni\Application\UseCase\GetChannel\GetChannelUseCase;
 use Alumni\Application\UseCase\GetChannel\GetChannelRequest;
@@ -34,6 +38,7 @@ class ChannelController
 {
     public function __construct(
         private readonly ListAllChannelsUseCase $listChannels,
+        private readonly CreateChannelUseCase $createChannel,
         private readonly GetChannelUseCase $getChannel,
         private readonly QuitChannelUseCase $quitChannel,
         private readonly JoinChannelUseCase $joinChannel,
@@ -57,6 +62,23 @@ class ChannelController
         ]), $response->status);
     }
 
+    public function create(ServerRequestInterface $request): RedirectResponse
+    {
+        $user = $request->getAttribute('user')->token;
+
+        $requestBody = $request->getParsedBody();
+        $requestDTO = new CreateChannelRequest($user['userId'], $requestBody['name'], $requestBody['description'], boolval($requestBody['isPublic']));
+        
+        $response = $this->createChannel->execute($requestDTO);
+
+        if ($response->status === 200)
+        {
+            return new RedirectResponse($_ENV['APP_URL'] . 'channels/' . $response->channelId);
+        } else {
+            return new RedirectResponse($_ENV['APP_URL'] . 'backoffice#failure');
+        }
+    }
+
     public function get(ServerRequestInterface $request): HtmlResponse
     {
         $user = $request->getAttribute('user')->token;
@@ -73,6 +95,16 @@ class ChannelController
             'attachments' => $response->attachments,
             'members' => $response->members
         ]), $response->status);
+    }
+
+    public function showChannelReportModal(ServerRequestInterface $request): HtmlResponse
+    {
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true);
+
+        return new HtmlResponse($this->twig->render('./Components/Backoffice/ChannelReportModal.twig', [
+            'id' => $requestBody['channelId']
+        ]), 200);
     }
 
     public function updateChannelData(ServerRequestInterface $request): JsonResponse

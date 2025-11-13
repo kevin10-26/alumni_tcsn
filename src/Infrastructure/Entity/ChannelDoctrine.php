@@ -21,8 +21,8 @@ class ChannelDoctrine
     #[ORM\Column(type: 'text')]
     private string $description;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $thumbnail;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $thumbnail;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isPublic;
@@ -70,12 +70,12 @@ class ChannelDoctrine
         return $this;
     }
 
-    public function getThumbnail(): string
+    public function getThumbnail(): ?string
     {
         return $this->thumbnail;
     }
 
-    public function setThumbnail(string $thumbnail): self
+    public function setThumbnail(?string $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
         return $this;

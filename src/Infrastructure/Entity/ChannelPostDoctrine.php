@@ -24,7 +24,7 @@ class ChannelPostDoctrine
     private string $content;
 
     #[ORM\ManyToOne(targetEntity: UserDoctrine::class)]
-    #[ORM\JoinColumn(name: 'channel_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?UserDoctrine $author = null;
 
     #[ORM\ManyToOne(targetEntity: ChannelDoctrine::class, inversedBy: 'posts')]

@@ -8,7 +8,7 @@ class Channel
         public readonly int $id,
         public readonly string $name,
         public readonly string $description,
-        public readonly string $thumbnail,
+        public readonly ?string $thumbnail,
         public readonly bool $isPublic,
         public readonly ?User $founder
     ) {}

@@ -18,6 +18,13 @@ interface ChannelRepositoryInterface
      */
     public function getPublicChannels(): array;
 
+    public function create(
+        int $userId,
+        string $name,
+        string $description,
+        bool $isPublic
+    ): int;
+
     public function update(
         int $channelId,
         array $updates
