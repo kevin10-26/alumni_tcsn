@@ -219,7 +219,6 @@ const deleteChannel = async (e, channelId) => {
 }
 
 const openPostReportModal = (postId) => {
-    console.debug(postId);
     let frontend = new Frontend();
     frontend.openModal('create-report-post');
 

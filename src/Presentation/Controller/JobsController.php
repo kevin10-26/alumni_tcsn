@@ -32,4 +32,14 @@ class JobsController
             'userApplications' => $response->userApplications
         ]), $response->status);
     }
+
+    public function showJobOfferReportModal(ServerRequestInterface $request): HtmlResponse
+    {
+        $raw = (string) $request->getBody();
+        $requestBody = json_decode($raw, true);
+
+        return new HtmlResponse($this->twig->render('./Components/Backoffice/JobOfferReportModal.twig', [
+            'id' => $requestBody['jobOfferId']
+        ]), 200);
+    }
 }

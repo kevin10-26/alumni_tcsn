@@ -54,9 +54,9 @@ class JobOfferRepository implements JobOfferRepositoryInterface
      * @param int $id The job offer ID
      * @return JobOffer The found job offer as a domain entity
      */
-    public function getById(int $id): JobOffer
+    public function getBy(array $conditions): JobOffer
     {
-        $offer = $this->em->find(JobOfferDoctrine::class, $id);
+        $offer = $this->em->getRepository(JobOfferDoctrine::class)->findOneBy($conditions);
 
         return $this->jobOfferMapper->toDomain($offer);
     }

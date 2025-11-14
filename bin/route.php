@@ -93,6 +93,8 @@ return [
 
     ['method' => 'GET', 'path' => '/jobs/offers/list', 'handler' => [JobsController::class, 'list']],
 
+    ['method' => 'POST', 'path' => '/backoffice/jobOffer/reportModal', 'handler' => [JobsController::class, 'showJobOfferReportModal']],
+
     ['method' => 'POST', 'path' => '/report/create', 'handler' => [ReportsController::class, 'create']],
 
     ['method' => 'POST', 'path' => '/legal/portability', 'handler' => [LegalController::class, 'portability']]

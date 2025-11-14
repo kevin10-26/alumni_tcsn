@@ -7,7 +7,7 @@ use Alumni\Domain\Entity\JobOffer;
 interface JobOfferRepositoryInterface
 {
     public function getAll(): array;
-    public function getById(int $id): JobOffer;
+    public function getBy(array $conditions): JobOffer;
     public function getByCompany(int $companyId): array;
     public function getByAuthor(int $authorId): array;
     public function getUserSavedOffers(int $userId): array;

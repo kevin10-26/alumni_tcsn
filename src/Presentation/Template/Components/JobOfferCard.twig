@@ -1,4 +1,4 @@
-<div class="flex flex-row justify-start gap-x-4 bg-gray-200 border-gray-600 border-2 border-solid">
+<div class="flex flex-row justify-start gap-x-4 w-full bg-gray-200 border-gray-600 border-2 border-solid">
     <img class="float-left h-40 object-cover" src="./img/{{ offer.company.logo }}" alt="Logo de l'entreprise : {{ offer.company.companyName }}" />
 
     <div class="w-3/4 p-4">
@@ -19,10 +19,11 @@
             <li class="my-2">
                 Organisation : <span class="font-semibold text-blue-500 underline hover:cursor-pointer" onclick="showCompanyDetails('{{ offer.company.id }}');">{{ offer.company.companyName }}</span>
             </li>
-            <li class="my-2">Diffusé par : {{ offer.author.username }} ({{ offer.author.studentData.graduatedAt is null ? offer.author.studentData|last.yearName : 'diplômé le ' ~ offer.author.studentData.graduatedAt }})</li>
+            <li class="my-2">Diffusé par : {{ offer.author.username ?? 'Ancien utilisateur' }} ({{ offer.author.studentData.graduatedAt is null ? offer.author.studentData|last.yearName : 'diplômé le ' ~ offer.author.studentData.graduatedAt }})</li>
         </ul>
     </div>
 
+    {% if savedOffers is defined %}
     <div class="float-right m-4">
         {% if offer.id in savedOffers|column('id') %}
         
@@ -37,5 +38,12 @@
         </button>
 
         {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="m-4" onclick="openJobOfferReportModal('{{ offer.id }}');">
+        <button class="px-4 py-2 rounded-md border-red-800 border-solid border-2 hover:bg-red-800 hover:text-white hover:cursor-pointer transition-all duration-200">
+            Signaler le contenu
+        </button>
     </div>
 </div>

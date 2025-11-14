@@ -1,0 +1,38 @@
+<dialog id="create-report-job-offer" class="hidden relative z-10">
+    <div class="fixed inset-0 bg-black/[.4] rounded-3xl transition-opacity" aria-hidden="true"></div>
+
+    <div class="fixed top-1/2 left-1/2 translate-y-[-50%] -translate-x-1/2 w-1/2 h-fit justify-center items-center inset-0 z-10 rounded-b-lg sm:overflow-y-hidden overflow-y-auto bg-gray-200 p-6">
+
+        <div id="close-create-report-job-offer" class="float-right text-3xl text-red-800 hover:cursor-pointer">
+            &times;
+        </div>
+
+        <h2 class="text-center">Signaler l'offre</h2>
+        <p class="my-4">
+            Vous souhaitez signaler un problème sur cette offre ? Veuillez nous en faire part en nous fournissant les informations suivantes :
+        </p>
+        <ul class="list-disc list-inside">
+            <li>Le sujet du signalement (titre de l'offre, l'entreprise, etc.)</li>
+            <li>La description du signalement (détails sur le problème, etc.)</li>
+            <li>Des pièces jointes pour appuyer le signalement</li>
+        </ul>
+
+        <form action="./report/create" method="POST" enctype="multipart/form-data">
+            <select name="report-topic" id="report-topic" oninput="checkIfOther(event, 'report-topic-other');" class="px-4 py-2 bg-gray-50 rounded-md my-4">
+                <option value="">Sujet du rapport</option>
+                <option value="Discours haineux">Discours haineux</option>
+                <option value="Contenu à caractère pédopornographique">Contenu à caractère pédopornographique</option>
+                <option value="Contenu à caractère terroriste">Contenu à caractère terroriste</option>
+                <option value="Propos discriminatoires">Propos discriminatoires</option>                
+                <option value="Autre">Autre</option>
+            </select>
+            <input type="hidden" name="report-type" value="jobOffer" />
+            <input type="hidden" id="report-channel-job-offer-id" name="entityId" value="{{ id }}" />
+            <input type="text" id="report-topic-other" name="report-topic-other" placeholder="Topic du rapport..." class="hidden px-4 py-2 rounded-md border-2 border-gray-400 border-solid" />
+            <textarea id="report-description" name="report-description" placeholder="Description du rapport..." class="w-full px-4 py-2 my-4 border-2 border-gray-400 border-solid"></textarea>
+            <label class="underline" for="report-attachments">Pièces jointes :</label><br />
+            <input id="report-attachments" name="report-attachments[]" class="bg-gray-300 px-4 py-2 rounded-md my-4 w-fit hover:cursor-pointer hover:bg-gray-50 transition-all duration-200" type="file" multiple />
+            <input type="submit" value="Envoyer" class="px-4 py-2 rounded-md bg-blue-800 border-blue-800 border-2 border-solid hover:bg-transparent hover:cursor-pointer transition-all duration-200 text-lg w-full" />
+        </form>
+    </div>
+</dialog>
