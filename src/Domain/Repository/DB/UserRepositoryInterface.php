@@ -9,6 +9,7 @@ interface UserRepositoryInterface
 {
     public function getAll(): array;
     public function getBy(array $conditions): ?User;
+    public function searchByUsername(string $username): ?array;
     public function update(int $userId, string $field, mixed $value): bool;
     public function authenticate(string $emailAddress, string $password): ?User;
     public function deactivate(int $userId, string $deactivationEndsTimestamps, string $origin): bool;

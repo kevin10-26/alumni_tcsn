@@ -1,0 +1,57 @@
+<div id="promotion-card-{{ prom.id }}" class="bg-white shadow-md rounded-2xl p-6 mb-6 border border-gray-200 flex flex-col gap-4">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <h2 class="text-xl font-semibold text-gray-900">
+            Promo {{ prom.year }}
+        </h2>
+    </div>
+
+    <!-- Infos étudiants -->
+    <p class="text-gray-700 text-sm">
+        Étudiants inscrits : 
+        <span class="font-semibold">{{ prom.students|length }}</span>
+    </p>
+
+    {% if prom.students is not empty %}
+        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 max-h-40 overflow-y-auto">
+
+            {% set break = false %}
+            {% for student in prom.students and not break %}
+
+                {% if loop.index == 5 %}
+                {% set break = true %}
+
+                <li>
+                    <button type="button" class="text-blue-600 underline" onclick="manageProm('{{ prom.id }}');">Voir plus</button>
+                </li>
+
+                {% else %}
+
+                <li>{{ student.userName }}</li>
+
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500 text-sm italic">Aucun étudiant dans cette promo.</p>
+    {% endif %}
+
+    <!-- Actions -->
+    <div class="flex justify-end gap-x-4">
+        <button 
+            onclick="manageProm('{{ prom.id }}')" 
+            class="px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 hover:cursor-pointer transition"
+        >
+            Gérer la promo
+        </button>
+        <button 
+            onclick="removePromotion('{{ prom.id }}')" 
+            class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 hover:cursor-pointer transition"
+        >
+            Supprimer la promo
+        </button>
+    </div>
+
+</div>

@@ -7,11 +7,14 @@ use Alumni\Infrastructure\Entity\MasterPromDoctrine;
 
 class MasterPromMapper
 {
-    public function toDomain(MasterPromDoctrine $masterPromDoctrine): MasterProm
+    public function toDomain(MasterPromDoctrine $masterPromDoctrine, ?array $students = [], ?array $delegates = []): MasterProm
     {
         return new MasterProm(
             id: $masterPromDoctrine->getId(),
-            year: $masterPromDoctrine->getYear()
+            year: $masterPromDoctrine->getYear(),
+            name: $masterPromDoctrine->getName(),
+            students: $students,
+            delegates: $delegates
         );
     }
 
@@ -19,6 +22,7 @@ class MasterPromMapper
     {
         $masterPromDoctrine = new MasterPromDoctrine();
         $masterPromDoctrine->setYear($masterProm->year);
+        $masterPromDoctrine->setName($masterProm->name);
         
         return $masterPromDoctrine;
     }

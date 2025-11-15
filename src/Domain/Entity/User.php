@@ -21,6 +21,6 @@ class User
 
     public function hasBeenDelegate()
     {
-        return in_array(1, array_column($this->studentData, 'isDelegate'));
+        return in_array(true, array_column($this->studentData, 'isDelegate'));
     }
 }

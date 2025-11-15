@@ -13,6 +13,7 @@ use Alumni\Presentation\Controller\JobsController;
 use Alumni\Presentation\Controller\ReportsController;
 use Alumni\Presentation\Controller\LegalController;
 use Alumni\Presentation\Controller\BackofficeController;
+use Alumni\Presentation\Controller\PromotionController;
 
 return [
     ['method' => 'GET', 'path' => '/', 'handler' => [HomeController::class, 'index']],
@@ -46,6 +47,20 @@ return [
     ['method' => 'POST', 'path' => '/dashboard/user/updateAvatar', 'handler' => [UserController::class, 'updateUserAvatar']],
 
     ['method' => 'POST', 'path' => '/dashboard/user/deactivate', 'handler' => [UserController::class, 'deactivate']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/manageModal', 'handler' => [PromotionController::class, 'manageModal']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/searchStudent', 'handler' => [PromotionController::class, 'searchStudent']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/getStudent', 'handler' => [PromotionController::class, 'getStudent']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/create', 'handler' => [PromotionController::class, 'create']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/edit', 'handler' => [PromotionController::class, 'edit']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/remove', 'handler' => [PromotionController::class, 'remove']],
+
+    ['method' => 'POST', 'path' => '/backoffice/prom/refresh', 'handler' => [PromotionController::class, 'refresh']],
 
     ['method' => 'POST', 'path' => '/auth/refresh', 'handler' => [AuthController::class, 'refreshToken']],
 

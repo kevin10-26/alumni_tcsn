@@ -127,6 +127,15 @@ class UserDoctrine
         return $this;
     }
 
+    public function addStudentData(StudentDataDoctrine $studentData): self
+    {
+        if(!$this->studentData->contains($studentData))
+        {
+            $this->studentData->add($studentData);
+        }
+        return $this;
+    }
+
     public function getUserJobData(): ?UserJobDataDoctrine
     {
         return $this->userJobData;

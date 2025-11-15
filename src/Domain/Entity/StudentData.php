@@ -7,9 +7,6 @@ class StudentData
     public function __construct(
         public int $id,
         public MasterProm $prom,
-        public \DateTime $startedAt,
-        public ?\DateTime $graduatedAt,
-        public string $yearName,
         public bool $isDelegate,
         public string $userName,
         public int $userId,

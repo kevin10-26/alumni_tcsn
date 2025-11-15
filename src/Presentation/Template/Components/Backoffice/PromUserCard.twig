@@ -1,0 +1,6 @@
+<div class="flex flex-row justify-start items-center gap-x-2">
+    <img src="./img/users/{{ user.id }}/profile_pictures/{{ user.userData.avatar }}" alt="Photo de profil de {{ user.username }}" />
+    <p>
+        {{ user.username }} ({{ user.userData.firstName ~ ' ' ~ user.userData.lastName }})
+    </p>
+</div>

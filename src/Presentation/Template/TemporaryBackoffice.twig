@@ -9,109 +9,136 @@
 <body class="bg-gray-100 min-h-screen flex">
 
   <aside id="sidebar"
-    class="fixed md:static top-0 left-0 h-screen w-64 bg-gray-900 text-gray-100 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
-    
-    <div class="px-6 py-4 text-2xl font-semibold border-b border-gray-700 flex items-center justify-between">
-      <span><span class="text-blue-400">Admin</span> Panel</span>
-      <button id="closeSidebar" class="md:hidden text-gray-400 hover:text-white">
-        ✕
-      </button>
-    </div>
+      class="fixed md:static top-0 left-0 h-screen w-64 bg-gray-900 text-gray-100 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
 
-    <nav class="flex-1 px-4 py-6 space-y-2">
-      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('reports');">Gestion des signalements</a>
-      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('users');">Gestion des utilisateurs</a>
-      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('announces');">Gestion des annonces</a>
-      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('channels');">Gestion des channels</a>
-      <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition" onclick="switchTabs('jobOffers');">Gestion des offres d'emplois</a>
-    </nav>
+      <div class="px-6 py-4 text-2xl font-semibold border-b border-gray-700 flex items-center justify-between">
+          <span><span class="text-blue-400">Admin</span> Panel</span>
+          <button id="closeSidebar" class="md:hidden text-gray-400 hover:text-white">
+              ✕
+          </button>
+      </div>
 
-    <div class="p-4 border-t border-gray-700 text-sm text-gray-400 text-center">
-      © 2025 Alumni Backoffice
-    </div>
+      <nav class="flex-1 px-4 py-6 space-y-2">
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('reports');">Gestion des signalements</a>
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('users');">Gestion des utilisateurs</a>
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('promotions');">Gestion des promotions</a>
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('announces');">Gestion des annonces</a>
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('channels');">Gestion des channels</a>
+          <a href="#" class="backoffice-tablink block px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              onclick="switchTabs('jobOffers');">Gestion des offres d'emplois</a>
+      </nav>
+
+      <div class="p-4 border-t border-gray-700 text-sm text-gray-400 text-center">
+          © 2025 Alumni Backoffice
+      </div>
   </aside>
 
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden md:hidden z-40"></div>
 
   <main class="flex-1 p-6 md:p-8 overflow-y-auto w-full md:ml-0">
 
-    <header class="md:hidden flex justify-between items-center mb-6">
-      <button id="openSidebar" class="text-gray-700 text-2xl">☰</button>
-      <h1 class="text-xl font-bold text-gray-800">Backoffice</h1>
-      <div class="w-8"></div>
-    </header>
+      <header class="md:hidden flex justify-between items-center mb-6">
+          <button id="openSidebar" class="text-gray-700 text-2xl">☰</button>
+          <h1 class="text-xl font-bold text-gray-800">Backoffice</h1>
+          <div class="w-8"></div>
+      </header>
 
-    <h1 class="hidden md:block text-3xl font-bold text-gray-800 mb-6">Vue d'ensemble</h1>
+      <h1 class="hidden md:block text-3xl font-bold text-gray-800 mb-6">Vue d'ensemble</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <h2 class="text-lg font-semibold text-gray-700 mb-2">Utilisateurs</h2>
-        <p class="text-4xl font-bold text-blue-600">{{ users|length }}</p>
-        <p class="text-sm text-gray-500 mt-1">Inscrits</p>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <h2 class="text-lg font-semibold text-gray-700 mb-2">Signalements</h2>
-        <p class="text-4xl font-bold text-red-600">{{ reports|column('status')|filter(s => s == 'unresolved')|length }}</p>
-        <p class="text-sm text-gray-500 mt-1">En attente de traitement</p>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <h2 class="text-lg font-semibold text-gray-700 mb-2">Offres d'emploi</h2>
-        <p class="text-4xl font-bold text-green-600">{{ jobOffers|length }}</p>
-        <p class="text-sm text-gray-500 mt-1">Publiées</p>
-      </div>
-    </div>
-
-    <section id="admin-content" class="bg-white rounded-2xl shadow p-6">
-      <h2 class="text-xl font-semibold text-gray-800 mb-4">Détails</h2>
-      <p id="tab-display-info" class="text-gray-600">Sélectionne une section dans le menu pour afficher son contenu ici.</p>
-
-      <div id="reports" class="backoffice-tabcontent hidden">
-        <h3 class="text-xl mb-4 font-semibold">Gestion des signalements</h3>
-
-        <div id="report-container">
-          {% include './Components/Backoffice/ReportsList.twig' with {content: reports} %}
-        </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white p-6 rounded-2xl shadow">
+              <h2 class="text-lg font-semibold text-gray-700 mb-2">Utilisateurs</h2>
+              <p class="text-4xl font-bold text-blue-600">{{ users|length }}</p>
+              <p class="text-sm text-gray-500 mt-1">Inscrits</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+              <h2 class="text-lg font-semibold text-gray-700 mb-2">Signalements</h2>
+              <p class="text-4xl font-bold text-red-600">
+                  {{ reports|column('status')|filter(s => s == 'unresolved')|length }}
+              </p>
+              <p class="text-sm text-gray-500 mt-1">En attente de traitement</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+              <h2 class="text-lg font-semibold text-gray-700 mb-2">Offres d'emploi</h2>
+              <p class="text-4xl font-bold text-green-600">{{ jobOffers|length }}</p>
+              <p class="text-sm text-gray-500 mt-1">Publiées</p>
+          </div>
       </div>
 
-      <div id="users" class="backoffice-tabcontent hidden">
-        <h3 class="text-xl mb-4 font-semibold">Gestion des utilisateurs</h3>
+        <section id="admin-content" class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Détails</h2>
+            <p id="tab-display-info" class="text-gray-600">
+                Sélectionne une section dans le menu pour afficher son contenu ici.
+            </p>
 
-        <div id="user-container">
-          {% include './Components/Backoffice/UsersList.twig' with {content: users, registrationPool: registrationPool} %}
-        </div>
+            <div id="reports" class="backoffice-tabcontent hidden">
+                <h3 class="text-xl mb-4 font-semibold">Gestion des signalements</h3>
+                <div id="report-container">
+                    {% include './Components/Backoffice/ReportsList.twig' with {content: reports} %}
+                </div>
+            </div>
+
+            <div id="users" class="backoffice-tabcontent hidden">
+                <h3 class="text-xl mb-4 font-semibold">Gestion des utilisateurs</h3>
+                <div id="user-container">
+                    {% include './Components/Backoffice/UsersList.twig'
+                        with {content: users, registrationPool: registrationPool} %}
+                </div>
+            </div>
+
+            <div id="promotions" class="backoffice-tabcontent hidden">
+                <h3 class="text-xl mb-4 font-semibold">Gestion des promotions</h3>
+
+                <div id="user-container">
+                    <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 mb-6">
+
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+                            Créer une nouvelle promo
+                        </h2>
+
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
+                            onclick="manageProm();">
+                            Créer la promo
+                        </button>
+                    </div>
+
+                    <div id="promotions-container">
+                        {% include './Components/Backoffice/MasterPromotionList.twig' with {content: promotions} %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="announces" class="backoffice-tabcontent hidden">
+                <h3 class="text-xl mb-4 font-semibold">Gestion des annonces</h3>
+                <div id="user-container">
+                    {% include './Components/Backoffice/Announces.twig' with {announcements: announces} %}
+                </div>
+            </div>
+
+            <div id="channels" class="backoffice-tabcontent hidden">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestion des Channels</h2>
+                {% include './Components/Backoffice/ChannelsList.twig' with {channels: channels} %}
+            </div>
+        </section>
+
+      <div id="jobOffers" class="backoffice-tabcontent hidden">
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestion des offres d'emploi</h2>
+          <div class="flex flex-col justify-start items-start gap-4">
+              {% for offer in jobOffers %}
+                  {% include './Components/JobOfferCard.twig' with {offer: offer} %}
+              {% endfor %}
+          </div>
       </div>
 
-      <div id="announces" class="backoffice-tabcontent hidden">
-        <h3 class="text-xl mb-4 font-semibold">Gestion des annonces</h3>
+      </section>
 
-        <div id="user-container">
-          {% include './Components/Backoffice/Announces.twig' with {announcements: announces} %}
-        </div>
-      </div>
-
-      <div id="channels" class="backoffice-tabcontent hidden">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestion des Channels</h2>
-
-        {% include './Components/Backoffice/ChannelsList.twig' with {channels: channels} %}
-      </div>
-    </section>
-
-    <div id="jobOffers" class="backoffice-tabcontent hidden">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">Gestion des offres d'emploi</h2>
-
-      <div class="flex flex-col justify-start items-start gap-4">
-
-        {% for offer in jobOffers %}
-
-        {% include './Components/JobOfferCard.twig' with {offer: offer} %}
-  
-        {% endfor %}
-
-      </div>
-    </div>
-  </section>
-
-    <div id="modal-placeholder" class="absolute top-0"></div>
+      <div id="modal-placeholder" class="absolute top-0"></div>
   </main>
 
   <script src="./js/Frontend.js"></script>
@@ -375,6 +402,208 @@
         frontend.fill('modal-placeholder', response);
 
         frontend.openModal('create-report-job-offer');
+    }
+  </script>
+
+  <script>
+    const manageProm = async (promId = 0) => {
+      let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/prom/manageModal', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                promId: promId
+            })
+        });
+
+        let response = await xhr.text();
+        frontend.fill('modal-placeholder', response);
+
+        frontend.openModal('manage-promotion-modal');
+    }
+
+    const searchStudents = async (e, promId, containerTarget) => {
+      
+      if (e.key === 'Enter')
+      {
+        addStudent(e.target.value);
+        return;
+      }
+
+      let authManager = new AuthManager();
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/prom/searchStudent', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                promId: promId,
+                input: e.target.value
+            })
+        });
+
+        let response = await xhr.json();
+        if (response.status === 200)
+        {
+          let datalist = document.getElementById(containerTarget);
+          frontend.emptyNode(`#${containerTarget}`);
+          
+          for (username of response.usernames)
+          {
+            let option = document.createElement('option');
+            option.value = username;
+
+            datalist.appendChild(option);
+          }
+          
+        }
+    }
+
+    const addStudent = async (targetId, containerId) => {
+
+        let authManager = new AuthManager(),
+            value = document.getElementById(targetId).value,
+            container = document.getElementById(containerId);
+
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/prom/getStudent', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                input: value
+            })
+        });
+
+        let response = await xhr.json(),
+            currentUsers = [];
+
+        for (user of container.children)
+        {
+            if (user.textContent === value)
+            {
+                currentUsers.push(value);
+            }
+        }
+
+        if (response.status === 200)
+        {
+            if (currentUsers.indexOf(value) >= 0 && currentUsers.length > 0)
+            {
+                // snackbar: already added
+                return;
+            }
+            let studentContainer = document.createElement('li'),
+                student = document.createElement('span'),
+                deleteStudent = document.createElement('span'),
+                separator = document.createElement('span');
+
+            
+            student.textContent = value;
+            deleteStudent.textContent = 'Supprimer';
+            deleteStudent.classList.add('text-blue-600', 'underline', 'hover:cursor-pointer');
+            deleteStudent.onclick = function(e) {
+                e.target.parentElement.remove();
+            }
+
+            separator.textContent = ' - ';
+
+            studentContainer.appendChild(student);
+            studentContainer.appendChild(separator);
+            studentContainer.appendChild(deleteStudent);
+            
+            container.appendChild(studentContainer);
+        }
+    }
+
+    const submitPromotion = async (e, mode) => {
+        e.preventDefault();
+      
+        let authManager = new AuthManager(),
+            formData = new FormData(e.target),
+            url = (mode === 'edit') ? './backoffice/prom/edit' : './backoffice/prom/create',
+
+            usersCount = function(container) {
+
+                let usersSelected = [],
+                    node = document.getElementById(container);
+
+                for (user of node.children)
+                {
+                    usersSelected.push(user.children[0].innerText);
+                }
+
+                return usersSelected;
+            };
+        
+        formData.append('students', usersCount('prom-students-list'));
+        formData.append('delegates', usersCount('prom-delegates-list'));
+
+        let xhr = await authManager.makeAuthenticatedRequest(url, {
+            method: 'POST',
+            body: formData
+        });
+
+        let response = await xhr.json();
+
+        if (response.status === 200)
+        {
+            if (mode === 'edit')
+            {
+                document.getElementById('close-manage-promotion-modal').click();
+            }
+
+            refreshPromotions();
+
+        } else
+        {
+            document.getElementById('manage-prom-error').textContent = response.error;
+        }
+
+        // snackbar
+    }
+
+    const removePromotion = async (promId) => {
+        let authManager = new AuthManager();
+
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/prom/remove', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                promId: promId
+            })
+        });
+
+        let response = await xhr.json();
+        
+        if (response.status === 200)
+        {
+            document.getElementById('promotion-card-' + promId).remove();
+        }
+
+        // snackbar
+    }
+
+    const refreshPromotions = async () => {
+        let authManager = new AuthManager();
+
+        let xhr = await authManager.makeAuthenticatedRequest('./backoffice/refresh', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contentType: 'promotions'
+            })
+        });
+
+        let response = await xhr.text();
+
+        frontend.fill('promotions-container', response);
     }
   </script>
 

@@ -54,7 +54,7 @@ class ReportsMapper
             attachments: []
         );
 
-        // ✅ Mapping des attachments en passant le $report
+        // Mapping des attachments en passant le $report
         $attachments = [];
         foreach ($reportsDoctrine->getAttachments() as $attachmentDoctrine) {
             $attachments[] = $this->attachmentsReportMapper->toDomain($attachmentDoctrine, $report);

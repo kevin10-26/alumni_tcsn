@@ -5,6 +5,7 @@ namespace Alumni\Application\UseCase\RefreshBackofficeTab;
 
 use Alumni\Domain\Repository\DB\ReportsRepositoryInterface;
 use Alumni\Domain\Repository\DB\UserRepositoryInterface;
+use Alumni\Domain\Repository\DB\StudentRepositoryInterface;
 use Alumni\Domain\Repository\DB\ChannelRepositoryInterface;
 use Alumni\Domain\Repository\DB\AnnouncesRepositoryInterface;
 use Alumni\Domain\Repository\DB\JobOfferRepositoryInterface;
@@ -14,6 +15,7 @@ class RefreshBackofficeTabUseCase
     public function __construct(
         private readonly ReportsRepositoryInterface $reportsRepository,
         private readonly UserRepositoryInterface $userRepository,
+        private readonly StudentRepositoryInterface $studentRepository,
         private readonly AnnouncesRepositoryInterface $announcesRepository,
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly JobOfferRepositoryInterface $jobOfferRepository
@@ -57,11 +59,22 @@ class RefreshBackofficeTabUseCase
             case 'post':
                 $content = $this->channelPostRepository->getAll();
                 $templateName = 'PostsList';
-                break;
 
             case 'channel':
                 $content = $this->channelRepository->getAll();
                 $templateName = 'ChannelsList';
+                break;
+
+            case 'promotions':
+                $content = $this->studentRepository->getAllPromotions();
+
+                foreach($content as $promotion)
+                {
+                    $promotion->delegates = $this->studentRepository->getPromotionDelegates($promotion->id);
+                    $promotion->students = $this->studentRepository->getStudentsForPromotion($promotion->id);
+                }
+                
+                $templateName = 'MasterPromotionList';
                 break;
 
             case 'announce':

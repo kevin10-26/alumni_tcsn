@@ -7,6 +7,8 @@ class MasterProm
     public function __construct(
         public int $id,
         public int $year,
-        public array $representatives = []
+        public string $name,
+        public ?array $students = [],
+        public ?array $delegates = []
     ) {}
 }

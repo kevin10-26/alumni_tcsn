@@ -68,6 +68,23 @@ class UserRepository implements UserRepositoryInterface
         return $this->mapper->toDomain($adminDoctrine);
     }
 
+    public function searchByUsername(string $username): ?array
+    {
+        $qb = $this->em->getRepository(UserDoctrine::class)->createQueryBuilder('u')
+            ->where('u.name LIKE :username')
+            ->setParameter('username', "%$username%")
+            ->getQuery()
+            ->getResult();
+
+        $usernames = [];
+        foreach($qb as $user)
+        {
+            $usernames[] = $user->getName();
+        }
+
+        return $usernames;
+    }
+
     public function update(int $userId, string $field, mixed $value): bool
     {
         $matchingField = $this->userService->getDatabaseField($field);

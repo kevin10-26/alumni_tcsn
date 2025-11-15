@@ -44,7 +44,7 @@ class BackofficeController
 
         return new HtmlResponse($this->twig->render('TemporaryBackoffice.twig', [
             'users' => $response->users,
-            'proms' => $response->promotions,
+            'promotions' => $response->promotions,
             'registrationPool' => $response->registrationPool,
             'reports' => $response->reports,
             'announces' => $response->announces,

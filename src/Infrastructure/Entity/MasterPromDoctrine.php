@@ -10,12 +10,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 class MasterPromDoctrine
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue]
-    public int $id;
+    #[ORM\Column(type: 'bigint')]
+    private int $id;
 
     #[ORM\Column(type: 'bigint')]
-    public int $year;
+    private int $year;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $name;
+
+    #[ORM\OneToMany(mappedBy: 'prom', targetEntity: StudentDataDoctrine::class)]
+    private Collection $students;
+
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -33,30 +44,14 @@ class MasterPromDoctrine
         return $this;
     }
 
-    public function getCourses(): array
+    public function getName(): string
     {
-        return $this->courses;
+        return $this->name;
     }
 
-    public function addCourses(string $course): self
+    public function setName(string $name): self
     {
-        if (!in_array($course, $this->courses, true))
-        {
-            $this->courses[] = $course;
-        }
-
-        return $this;
-    }
-
-    public function removeCourses(): self
-    {
-        $this->courses = [];
-        return $this;
-    }
-
-    public function setCourses(array $courses): self
-    {
-        $this->courses = $courses;
+        $this->name = $name;
         return $this;
     }
 

@@ -19,9 +19,6 @@ class StudentDataMapper
         return new StudentData(
             id: $studentDataDoctrine->getId(),
             prom: $this->masterPromMapper->toDomain($studentDataDoctrine->getProm()),
-            startedAt: $studentDataDoctrine->getStartedAt(),
-            graduatedAt: $studentDataDoctrine->getGraduatedAt(),
-            yearName: $studentDataDoctrine->getYearName(),
             isDelegate: $studentDataDoctrine->isDelegate(),
             userName: $studentDataDoctrine->getUser()->getName(),
             userId: $studentDataDoctrine->getUser()->getId()
@@ -32,9 +29,6 @@ class StudentDataMapper
     {
         $studentDataDoctrine = new StudentDataDoctrine();
         $studentDataDoctrine->setProm($this->masterPromMapper->toDoctrine($studentData->prom));
-        $studentDataDoctrine->setStartedAt($studentData->startedAt);
-        $studentDataDoctrine->setGraduatedAt($studentData->graduatedAt);
-        $studentDataDoctrine->setYearName($studentData->yearName);
         $studentDataDoctrine->setIsDelegate($studentData->isDelegate);
         
         return $studentDataDoctrine;

@@ -28,11 +28,23 @@ class ShowBackofficeUseCase
             status: 200,
             users: $this->userRepository->getAll(),
             registrationPool: $this->registrationPoolRepository->getAll(),
-            promotions: $this->studentRepository->getAllPromotions(),
+            promotions: $this->getPromotionsData(),
             reports: $this->reportsRepository->getAll(),
             announces: $this->announcesRepository->getAll(),
             channels: $this->channelRepository->getAll(),
             jobOffers: $this->jobOfferRepository->getAll()
         );
+    }
+
+    public function getPromotionsData(): array
+    {
+        $allPromotions = $this->studentRepository->getAllPromotions();
+
+        foreach($allPromotions as $promotion)
+        {
+            $promotion->students = $this->studentRepository->getStudentsForPromotion($promotion->id);
+        }
+
+        return $allPromotions;
     }
 }
